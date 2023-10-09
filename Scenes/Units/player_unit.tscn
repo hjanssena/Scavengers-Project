@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://dy8ow3xay3kyc"]
 
-[ext_resource type="Script" path="res://Scenes/Units/Unit.gd" id="1_8kams"]
 [ext_resource type="Texture2D" uid="uid://kili2gy8uh6q" path="res://Sprites/Testing/buzz.jpg" id="2_4d67t"]
+[ext_resource type="Script" path="res://Scenes/Units/Player.gd" id="3_k1f40"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_2pjen"]
 animations = [{
@@ -16,9 +16,9 @@ animations = [{
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mvbcd"]
 
-[node name="Unit" type="Node2D"]
+[node name="PlayerUnit" type="Node2D"]
 position = Vector2(32, 32)
-script = ExtResource("1_8kams")
+script = ExtResource("3_k1f40")
 metadata/_edit_group_ = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

@@ -2,12 +2,25 @@ extends Node2D
 enum CursorMode {normal, target_select}
 
 var cursor_moving
+var selected_unit
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	move()
-	check_current_square()
 	
+	if selected_unit != null && !selected_unit.moving:
+		selected_unit.find_selectable_squares()
+		if Input.is_action_just_pressed("action_button"):
+			var selected_square = get_current_square()
+			if selected_square.selectable:
+				selected_unit.set_movement(selected_square)
+	elif selected_unit == null:
+		check_current_square()
+	
+	if(Input.is_action_just_pressed("action_button")):
+		select_unit()
+	if(Input.is_action_just_pressed("cancel_button")):
+		clear()
+
 
 func move():
 	if ($cursor_timer.is_stopped() && cursor_moving):
@@ -64,7 +77,7 @@ func hold_move():
 			$cursor_timer.start()
 	else:
 		cursor_moving = false
-	
+
 func peek_next_square(direction):
 	var current_pos = transform.get_origin() + direction
 	current_pos.x -= 32
@@ -86,3 +99,25 @@ func check_current_square():
 	
 	if(occupant != null):
 		occupant.collider.get_parent().find_selectable_squares()
+
+
+func get_current_square():
+	var current_pos = transform.get_origin()
+	current_pos.x -= 32
+	current_pos.y -= 32
+	var square_node = get_node_or_null("/root/TestMap/Grid/" + str(current_pos.x / 64) + "_" + str(current_pos.y / 64))
+	return square_node
+
+func select_unit():
+	var current_pos = transform.get_origin()
+	current_pos.x -= 32
+	current_pos.y -= 32
+	var square_node = get_node_or_null("/root/TestMap/Grid/" + str(current_pos.x / 64) + "_" + str(current_pos.y / 64))
+	
+	var occupant = square_node.get_occupant()
+	
+	if(occupant != null):
+		selected_unit = occupant.collider.get_parent()
+
+func clear():
+	selected_unit = null
