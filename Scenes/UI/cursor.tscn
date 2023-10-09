@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://drdcnkxcug7ia"]
+
+[ext_resource type="Script" path="res://Scenes/UI/cursor.gd" id="1_5x2nt"]
+[ext_resource type="Texture2D" uid="uid://bmueq2jq475ee" path="res://Sprites/UI/Cursor.png" id="1_y204m"]
+
+[node name="Cursor" type="Node2D"]
+position = Vector2(32, 32)
+scale = Vector2(0.6, 0.6)
+script = ExtResource("1_5x2nt")
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_y204m")
+
+[node name="cursor_timer" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true

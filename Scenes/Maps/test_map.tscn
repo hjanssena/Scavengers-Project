@@ -1,0 +1,73 @@
+[gd_scene load_steps=5 format=3 uid="uid://be5jmr0cvhd8"]
+
+[ext_resource type="PackedScene" uid="uid://sp6t3qg5jph8" path="res://Scenes/Grid/grid.tscn" id="1_5strk"]
+[ext_resource type="PackedScene" uid="uid://bcd1374lsj3q4" path="res://Scenes/Grid/square.tscn" id="2_3l18j"]
+[ext_resource type="PackedScene" uid="uid://drdcnkxcug7ia" path="res://Scenes/UI/cursor.tscn" id="3_ijtjv"]
+[ext_resource type="PackedScene" uid="uid://dy8ow3xay3kyc" path="res://Scenes/Units/unit.tscn" id="4_bpoys"]
+
+[node name="TestMap" type="Node2D"]
+
+[node name="Grid" parent="." instance=ExtResource("1_5strk")]
+
+[node name="Square" parent="Grid" instance=ExtResource("2_3l18j")]
+
+[node name="Square2" parent="Grid" instance=ExtResource("2_3l18j")]
+position = Vector2(64, 0)
+
+[node name="Square3" parent="Grid" instance=ExtResource("2_3l18j")]
+position = Vector2(0, 64)
+
+[node name="Square4" parent="Grid" instance=ExtResource("2_3l18j")]
+position = Vector2(128, 0)
+
+[node name="Square5" parent="Grid" instance=ExtResource("2_3l18j")]
+position = Vector2(0, 128)
+
+[node name="Square6" parent="Grid" instance=ExtResource("2_3l18j")]
+position = Vector2(192, 0)
+
+[node name="Square7" parent="Grid" instance=ExtResource("2_3l18j")]
+position = Vector2(64, 64)
+
+[node name="Square8" parent="Grid" instance=ExtResource("2_3l18j")]
+position = Vector2(128, 64)
+
+[node name="Square9" parent="Grid" instance=ExtResource("2_3l18j")]
+position = Vector2(192, 64)
+
+[node name="Square10" parent="Grid" instance=ExtResource("2_3l18j")]
+position = Vector2(64, 128)
+
+[node name="Square11" parent="Grid" instance=ExtResource("2_3l18j")]
+position = Vector2(128, 128)
+
+[node name="Square12" parent="Grid" instance=ExtResource("2_3l18j")]
+position = Vector2(192, 128)
+
+[node name="Square13" parent="Grid" instance=ExtResource("2_3l18j")]
+position = Vector2(192, 192)
+
+[node name="Square14" parent="Grid" instance=ExtResource("2_3l18j")]
+position = Vector2(128, 192)
+
+[node name="Square15" parent="Grid" instance=ExtResource("2_3l18j")]
+position = Vector2(64, 192)
+
+[node name="Square16" parent="Grid" instance=ExtResource("2_3l18j")]
+position = Vector2(0, 192)
+
+[node name="Square17" parent="Grid" instance=ExtResource("2_3l18j")]
+position = Vector2(256, 0)
+
+[node name="Square18" parent="Grid" instance=ExtResource("2_3l18j")]
+position = Vector2(256, 64)
+
+[node name="Square19" parent="Grid" instance=ExtResource("2_3l18j")]
+position = Vector2(256, 128)
+
+[node name="Square20" parent="Grid" instance=ExtResource("2_3l18j")]
+position = Vector2(256, 192)
+
+[node name="Cursor" parent="." instance=ExtResource("3_ijtjv")]
+
+[node name="Unit" parent="." instance=ExtResource("4_bpoys")]
