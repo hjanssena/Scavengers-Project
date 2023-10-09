@@ -3,24 +3,25 @@ enum CursorMode {normal, target_select}
 
 var cursor_moving
 var selected_unit
+var enabled
 
-func _process(delta):
-	move()
-	
-	if selected_unit != null && !selected_unit.moving:
-		selected_unit.find_selectable_squares()
-		if Input.is_action_just_pressed("action_button"):
-			var selected_square = get_current_square()
-			if selected_square.selectable:
-				selected_unit.set_movement(selected_square)
-	elif selected_unit == null:
-		check_current_square()
-	
-	if(Input.is_action_just_pressed("action_button")):
-		select_unit()
-	if(Input.is_action_just_pressed("cancel_button")):
-		clear()
-
+func _process(_delta):
+	if enabled:
+		move()
+		
+		if selected_unit != null && !selected_unit.moving:
+			selected_unit.find_selectable_squares()
+			if Input.is_action_just_pressed("action_button"):
+				var selected_square = get_current_square()
+				if selected_square.selectable:
+					selected_unit.set_movement(selected_square)
+		elif selected_unit == null:
+			check_current_square()
+		
+		if(Input.is_action_just_pressed("action_button")):
+			select_unit()
+		if(Input.is_action_just_pressed("cancel_button")):
+			clear()
 
 func move():
 	if ($cursor_timer.is_stopped() && cursor_moving):
@@ -100,7 +101,6 @@ func check_current_square():
 	if(occupant != null):
 		occupant.collider.get_parent().find_selectable_squares()
 
-
 func get_current_square():
 	var current_pos = transform.get_origin()
 	current_pos.x -= 32
@@ -121,3 +121,11 @@ func select_unit():
 
 func clear():
 	selected_unit = null
+	
+func enable_cursor(): #Add camera focus to cursor
+	enabled = true
+	$Sprite2D.show()
+
+func disable_cursor(camera_focus): #Remove camera focus to cursor and give it to the unit focus
+	enabled = false
+	$Sprite2D.hide()

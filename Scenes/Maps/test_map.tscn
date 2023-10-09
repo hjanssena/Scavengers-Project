@@ -1,11 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://be5jmr0cvhd8"]
+[gd_scene load_steps=6 format=3 uid="uid://be5jmr0cvhd8"]
 
 [ext_resource type="PackedScene" uid="uid://sp6t3qg5jph8" path="res://Scenes/Grid/grid.tscn" id="1_5strk"]
+[ext_resource type="PackedScene" uid="uid://knsxgxve7qiw" path="res://Scenes/manager.tscn" id="1_njh5f"]
 [ext_resource type="PackedScene" uid="uid://bcd1374lsj3q4" path="res://Scenes/Grid/square.tscn" id="2_3l18j"]
 [ext_resource type="PackedScene" uid="uid://drdcnkxcug7ia" path="res://Scenes/UI/cursor.tscn" id="3_ijtjv"]
 [ext_resource type="PackedScene" uid="uid://dy8ow3xay3kyc" path="res://Scenes/Units/player_unit.tscn" id="4_bpoys"]
 
 [node name="TestMap" type="Node2D"]
+
+[node name="Manager" parent="." instance=ExtResource("1_njh5f")]
 
 [node name="Grid" parent="." instance=ExtResource("1_5strk")]
 

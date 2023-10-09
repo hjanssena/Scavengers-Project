@@ -2,6 +2,9 @@ extends Node2D
 
 class_name Unit
 
+enum allegiances {player, enemy, ally}
+@export var allegiance: allegiances
+
 #bfs
 var squares: Array
 var current_square
@@ -51,7 +54,6 @@ func get_square_array():
 	squares = grid.get_children()
 
 func find_selectable_squares():
-	compute_adjacency_lists()
 	set_current_square()
 	
 	var square_queue: Array
@@ -125,7 +127,6 @@ func move(delta):
 		var velocity = position.direction_to(direction) * movement_speed
 		
 		if position.distance_to(direction) <= (velocity.x + velocity.y) * delta:
-			var set_position 
 			transform.origin = direction
 			path.remove_at(path.size() -1)
 			if(path.size() <= 0):
@@ -135,7 +136,3 @@ func move(delta):
 		else:
 			#look_at(path[0].transform.get_origin())
 			transform.origin = transform.origin + velocity * delta
-
-func compute_adjacency_lists():
-	for square in squares:
-		square.find_neighbors

@@ -32,14 +32,21 @@ var h = 0
 
 #Penalties for standing on this square
 @export var type: squareType
-@export var movement_cost: int
-var speed_penalty
-var skill_penalty
+var movement_cost = 0
+var speed_penalty = 0
+var skill_penalty = 0
 
 func _ready():
 	position_in_grid = transform.get_origin()
 
 func _process(_delta):
+	set_color()
+	find_neighbors(null)
+
+func set_square_type(): #Depending square type it gets assigned a speed, skill and movement penalty
+	pass
+
+func set_color():
 	if current:
 		$SquareColor.color = Color.MAGENTA
 	elif interactable:
@@ -50,9 +57,6 @@ func _process(_delta):
 		$SquareColor.color = Color.RED
 	else:
 		$SquareColor.color = Color.TRANSPARENT
-	
-	find_neighbors(null)
-
 
 func reset_values():
 	adjacency_list.clear()
@@ -84,7 +88,6 @@ func check_square(direction, target):
 	
 	if square_node != null && square_node.walkable && !square_node.occupied:
 		adjacency_list.insert(adjacency_list.size(), square_node)
-		
 
 func check_if_occupied():
 	var square_pos = transform.get_origin()
