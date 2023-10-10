@@ -118,6 +118,23 @@ func get_occupant():
 	else:
 		return result
 
+func get_neighbors(target):
+	var squares: Array
+	
+	get_available_adyacent_square(Vector2.UP, target)
+	get_available_adyacent_square(Vector2.DOWN, target)
+	get_available_adyacent_square(Vector2.LEFT, target)
+	get_available_adyacent_square(Vector2.RIGHT, target)
+	
+	return squares
+
+func get_adyacent_square(direction, target):
+	var square_pos = transform.get_origin() + direction * 64
+	var square_node = get_node_or_null("/root/" + get_tree().get_current_scene().name +"/Grid/" + str(square_pos.x / 64) + "_" + str(square_pos.y / 64))
+	
+	if square_node != null && square_node.walkable:
+		return square_node
+
 func get_available_neighbors(target):
 	var squares: Array
 	

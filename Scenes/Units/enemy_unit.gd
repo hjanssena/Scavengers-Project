@@ -35,26 +35,15 @@ func get_best_target(player_units, enemy_units, ally_units):
 		if square.selectable:
 			return square 
 	
-	for unit in target_units:
-		var available_squares = get_available_adyacent_squares(unit)
-
-func get_available_adyacent_squares(unit):
-	var target_square = unit.get_current_square()
-	var squares_to_evaluate: Array
-	var adyacent_squares: Array
-	var iterations = 0
-	var next_iteration_squares: Array
-	
-	squares_to_evaluate = target_square.get_available_neighbors()
-	
-	while iterations < attack_range:
-		for square in squares_to_evaluate:
-			if square.selectable:
-				adyacent_squares.insert(adyacent_squares.size(), square)
-				
-			
-		iterations += 1
-	return adyacent_squares
+	for unit in target_units: #Si se tiene a una unidad objetivo cerca, priorizar
+		var available_squares = get_available_adyacent_squares(unit, attack_range)
+		var closest_square
+		for square in available_squares:
+			if closest_square == null:
+				closest_square = square
+			elif position.distance_to(square) < position.distance_to(closest_square):
+				closest_square = square
+		return closest_square
 
 func end_turn():
 	

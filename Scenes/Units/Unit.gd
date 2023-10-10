@@ -139,3 +139,22 @@ func move(delta):
 		else:
 			#look_at(path[0].transform.get_origin())
 			transform.origin = transform.origin + velocity * delta
+
+func get_available_adyacent_squares(unit, area):
+	var target_square = unit.get_current_square()
+	var squares_to_evaluate: Array
+	var adyacent_squares: Array
+	var next_iteration_squares: Array
+	var iterations = 0
+	squares_to_evaluate = target_square.get_available_neighbors()
+	
+	while iterations < area:
+		for square in squares_to_evaluate:
+			if square.selectable:
+				adyacent_squares.insert(adyacent_squares.size(), square)
+				for s in square.get_available_neighbors():
+					next_iteration_squares.insert(next_iteration_squares.size(), s)
+		squares_to_evaluate = next_iteration_squares
+		next_iteration_squares.clear()
+		iterations += 1
+	return adyacent_squares
