@@ -83,5 +83,3 @@ metadata/_edit_group_ = true
 position = Vector2(288, 224)
 
 [node name="EnemyUnit" parent="Units" instance=ExtResource("6_6ektc")]
-level = null
-movement_speed = null

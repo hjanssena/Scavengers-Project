@@ -121,7 +121,7 @@ func select_unit():
 
 func clear():
 	selected_unit = null
-	
+
 func enable_cursor(): #Add camera focus to cursor
 	enabled = true
 	$Sprite2D.show()

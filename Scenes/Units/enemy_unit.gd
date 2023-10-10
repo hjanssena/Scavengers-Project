@@ -40,12 +40,24 @@ func get_best_target(player_units, enemy_units, ally_units):
 
 func get_available_adyacent_squares(unit):
 	var target_square = unit.get_current_square()
-	var 
+	var squares_to_evaluate: Array
+	var adyacent_squares: Array
+	var iterations = 0
+	var next_iteration_squares: Array
 	
-	for i in attack_range:
-		
+	squares_to_evaluate = target_square.get_available_neighbors()
+	
+	while iterations < attack_range:
+		for square in squares_to_evaluate:
+			if square.selectable:
+				adyacent_squares.insert(adyacent_squares.size(), square)
+				
+			
+		iterations += 1
+	return adyacent_squares
 
 func end_turn():
+	
 	pass
 
 
