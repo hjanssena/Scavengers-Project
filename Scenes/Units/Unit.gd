@@ -39,6 +39,9 @@ func _ready():
 func _process(delta):
 	move(delta)
 
+func get_current_square():
+	return get_target_square(transform.get_origin())
+
 func set_current_square():
 	current_square = get_target_square(transform.get_origin())
 	current_square.current = true
