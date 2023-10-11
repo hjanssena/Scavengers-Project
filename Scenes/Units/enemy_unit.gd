@@ -8,6 +8,10 @@ var best_target
 @export var level = 1 #Mas adelante cuando se tengan los stats y el
 #progreso, se auto generaran los stats en base al nivel
 
+func _process(delta):
+	if moving:
+		move(delta)
+
 func decide_action(player_units, enemy_units, ally_units):
 	var objectives: Array
 	objectives = player_units
@@ -17,7 +21,7 @@ func decide_action(player_units, enemy_units, ally_units):
 	
 	if !aggro:
 		for objective in objectives:
-			var distance = position.distance_to(objective.get_origin())
+			var distance = position.distance_to(objective.transform.origin)
 			if distance <= aggro_range:
 				aggro = true
 	
@@ -46,7 +50,7 @@ func get_best_target(player_units, enemy_units, ally_units):
 		return closest_square
 
 func end_turn():
-	
+	moving = false
 	pass
 
 

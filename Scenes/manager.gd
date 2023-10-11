@@ -1,3 +1,4 @@
+#Controls the player-enemy-ally turns and the AI turns
 extends Node
 enum turns {player, enemy, ally}
 
@@ -5,6 +6,8 @@ var cursor
 var player_units: Array
 var enemy_units: Array
 var ally_units: Array
+var current_unit
+var unit_turn = 0 #Controla el numero de turno de las unidades AI
 var current_turn = turns.player
 
 func _ready():
@@ -24,37 +27,29 @@ func player_turn():
 	var turn_ended
 	for unit in player_units:
 		if unit.has_moved: #cambiar a has ended cuando ya se pueda atacar, esto es para pruebas
-			turn_ended = true
-	if turn_ended:
-		current_turn = turns.enemy
-		for unit in player_units:
-			unit.has_moved = false #aca igual
+			end_turn(player_units, turns.enemy)
 
 func enemy_turn():
+	if enemy_units.size() == 0: #If there are no enemy units left
+		end_turn(enemy_units,turns.ally)
 	cursor.disable_cursor(cursor) #cambiar cuando ya se tenga camara
 	var turn_ended
-	for unit in enemy_units:
-		if unit.has_moved: #cambiar a has ended cuando ya se pueda atacar, esto es para pruebas
-			turn_ended = true
+	set_next_unit(enemy_units)
+	if current_unit == null:
+		end_turn(enemy_units,turns.ally)
 	if enemy_units.size() == 0: #If there are no enemy units left
-		turn_ended = true
-	if turn_ended:
-		current_turn = turns.ally
-		for unit in enemy_units:
-			unit.has_moved = false #aca igual
+		end_turn(enemy_units,turns.ally)
 
 func ally_turn():
+	if enemy_units.size() == 0: #If there are no enemy units left
+		end_turn(ally_units,turns.player)
 	cursor.disable_cursor(cursor) #cambiar cuando ya se tenga camara
 	var turn_ended
-	for unit in ally_units:
-		if unit.has_moved: #cambiar a has ended cuando ya se pueda atacar, esto es para pruebas
-			turn_ended = true
-	if ally_units.size() == 0: #If there are no ally units left
-		turn_ended = true
-	if turn_ended:
-		current_turn = turns.player
-		for unit in ally_units:
-			unit.has_moved = false #aca igual
+	set_next_unit(ally_units)
+	if current_unit == null:
+		end_turn(ally_units,turns.player)
+	if enemy_units.size() == 0: #If there are no enemy units left
+		end_turn(ally_units,turns.player)
 
 func classify_units():
 	var units = get_node("/root/" + get_tree().get_current_scene().name + "/Units")
@@ -65,3 +60,15 @@ func classify_units():
 			enemy_units.insert(enemy_units.size(), unit)
 		elif(unit.allegiance == 2):
 			ally_units.insert(ally_units.size(), unit)
+
+func end_turn(units_array, next_turn):
+	current_turn = next_turn
+	for unit in units_array:
+		unit.has_moved = false #aca igual
+
+func set_next_unit(unit_array: Array):
+	if unit_turn >= unit_array.size() && unit_array.size() > 0:
+		current_unit = unit_array[unit_turn]
+	else:
+		unit_turn = 0
+		current_unit = null
