@@ -20,18 +20,18 @@ var path: Array
 var has_moved
 
 #unit stats
-var hitpoints
-var strength
-var magic
-var skill
-var speed
-var luck
-var defense
-var resistance
-var movement = 2
-var build
+var hitpoints #xd
+var strength #Dano fisico
+var magic #Dano magico
+var skill #Afecta a la probabilidad de que no te esquiven y de criticos
+var speed #Esquivadas y probabilidad de pegar una vez extra tal vez?
+var luck #Afecta criticos y esquivadas de manera oculta
+var defense #Defensa fisica
+var resistance #Resistencia magica
+var movement = 5 #movimiento en los tiles
+var build #Puede servir para las empujadas
 
-var attack_range = 2
+var attack_range = 3
 
 func _ready():
 	get_square_array()
@@ -56,7 +56,9 @@ func get_square_array():
 	var grid = get_node("/root/" + get_tree().get_current_scene().name + "/Grid")
 	squares = grid.get_children()
 
-func find_selectable_squares():
+#STILL HAVE TO IMPLEMENT INTERACTABLE
+func find_selectable_squares(): #Assing all squares that apply the selectable, attackable and interactable properties
+	compute_adyacency_lists()
 	set_current_square()
 	
 	var square_queue: Array
@@ -68,7 +70,7 @@ func find_selectable_squares():
 		var square = square_queue[0]
 		square_queue.remove_at(0)
 		
-		if !has_moved :
+		if !has_moved:
 			if square.distance < movement:
 				for s in square.adjacency_list:
 					var occupied = s.get_occupant()
@@ -78,11 +80,23 @@ func find_selectable_squares():
 						s.distance = 1 + s.movement_cost + square.distance
 						s.selectable = true
 						square_queue.insert(square_queue.size(), s)
-					elif !s.visited && occupied != null && get_meta(occupied.collider.get_parent().get_meta()) == "ally":
+					elif !s.visited && occupied != null && occupied.collider.get_parent().allegiance == allegiances.player:
 						s.current_parent = square
 						s.visited = true
 						s.distance = 1 + s.movement_cost + square.distance
 						s.selectable = false
+						square_queue.insert(square_queue.size(), s)
+					elif !s.visited && occupied != null && occupied.collider.get_parent().allegiance == allegiances.ally:
+						s.current_parent = square
+						s.visited = true
+						s.distance = 1 + s.movement_cost + square.distance
+						s.selectable = false
+						square_queue.insert(square_queue.size(), s)
+					elif !s.visited && occupied != null && occupied.collider.get_parent().allegiance == allegiances.enemy:
+						s.current_parent = square
+						s.visited = true
+						s.distance = 1 + s.movement_cost + square.distance
+						s.attackable = true
 						square_queue.insert(square_queue.size(), s)
 			elif square.distance < movement + attack_range:
 				for s in square.adjacency_list:
@@ -93,7 +107,7 @@ func find_selectable_squares():
 						s.distance = 1 + s.movement_cost + square.distance
 						s.attackable = true
 						square_queue.insert(square_queue.size(), s)
-					elif !s.visited && occupied != null && get_meta(occupied.collider.get_parent().get_meta()) == "enemy":
+					elif !s.visited && occupied != null && occupied.collider.get_parent().allegiance == allegiances.enemy:
 						s.current_parent = square
 						s.visited = true
 						s.distance = 1 + s.movement_cost + square.distance
@@ -109,14 +123,14 @@ func find_selectable_squares():
 						s.distance = 1 + s.movement_cost + square.distance
 						s.attackable = true
 						square_queue.insert(square_queue.size(), s)
-					elif !s.visited && occupied != null && get_meta(occupied.collider.get_parent().get_meta()) == "enemy":
+					elif !s.visited && occupied != null && occupied.collider.get_parent().allegiance == allegiances.enemy:
 						s.current_parent = square
 						s.visited = true
 						s.distance = 1 + s.movement_cost + square.distance
 						s.attackable = true
 						square_queue.insert(square_queue.size(), s)
 
-func set_movement(target_square):
+func set_movement(target_square): #Builds the path for the unit to take when moving
 	var sqr = target_square
 	path.insert(path.size(),sqr)
 	while sqr != current_square:
@@ -140,6 +154,10 @@ func move(delta):
 			#look_at(path[0].transform.get_origin())
 			transform.origin = transform.origin + velocity * delta
 
+func compute_adyacency_lists():
+	for square in squares:
+		square.find_neighbors()
+
 func get_available_adyacent_squares(unit, area):
 	var target_square = unit.get_current_square()
 	var squares_to_evaluate: Array
@@ -152,9 +170,11 @@ func get_available_adyacent_squares(unit, area):
 		for square in squares_to_evaluate:
 			if square.selectable:
 				adyacent_squares.insert(adyacent_squares.size(), square)
-				for s in square.get_available_neighbors():
+			for s in square.get_available_neighbors():
+				if !s.target_visited:
 					next_iteration_squares.insert(next_iteration_squares.size(), s)
-		squares_to_evaluate = next_iteration_squares
+			square.target_visited = true
+		squares_to_evaluate += next_iteration_squares
 		next_iteration_squares.clear()
 		iterations += 1
 	return adyacent_squares

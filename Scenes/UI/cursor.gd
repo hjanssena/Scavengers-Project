@@ -4,6 +4,10 @@ enum CursorMode {normal, target_select}
 var cursor_moving
 var selected_unit
 var enabled
+var manager
+
+func _ready():
+	manager = get_node("/root/" + get_tree().get_current_scene().name + "/Manager")
 
 func _process(_delta):
 	if enabled:
@@ -15,6 +19,8 @@ func _process(_delta):
 				var selected_square = get_current_square()
 				if selected_square.selectable:
 					selected_unit.set_movement(selected_square)
+					disable_cursor(null)
+				
 		elif selected_unit == null:
 			check_current_square()
 		
@@ -22,6 +28,8 @@ func _process(_delta):
 			select_unit()
 		if(Input.is_action_just_pressed("cancel_button")):
 			clear()
+	elif manager.current_turn == 0 && !selected_unit.moving:
+		enable_cursor()
 
 func move():
 	if ($cursor_timer.is_stopped() && cursor_moving):
@@ -116,7 +124,7 @@ func select_unit():
 	
 	var occupant = square_node.get_occupant()
 	
-	if(occupant != null):
+	if(occupant != null && occupant.collider.get_parent().allegiance == 0):
 		selected_unit = occupant.collider.get_parent()
 
 func clear():

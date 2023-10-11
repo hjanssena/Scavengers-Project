@@ -83,4 +83,13 @@ metadata/_edit_group_ = true
 position = Vector2(288, 224)
 
 [node name="EnemyUnit" parent="Units" node_paths=PackedStringArray("target_units") instance=ExtResource("6_6ektc")]
+aggro_range = 130.0
 target_units = [NodePath("../PlayerUnit")]
+
+[node name="PlayerUnit2" parent="Units" instance=ExtResource("4_bpoys")]
+position = Vector2(224, 224)
+
+[node name="EnemyUnit2" parent="Units" node_paths=PackedStringArray("target_units") instance=ExtResource("6_6ektc")]
+position = Vector2(32, 96)
+aggro_range = 130.0
+target_units = [NodePath("../PlayerUnit2")]
