@@ -13,55 +13,26 @@ func _ready():
 	manager = get_node("/root/" + get_tree().get_current_scene().name + "/Manager")
 
 func _process(_delta):
-	if selected_unit == null:
+	if enabled:
 		move()
-		check_current_square()
+		
+		if selected_unit != null && !selected_unit.moving:
+			selected_unit.find_selectable_squares()
+			if Input.is_action_just_pressed("action_button"):
+				var selected_square = get_current_square()
+				if selected_square.selectable:
+					selected_unit.set_movement(selected_square)
+					disable_cursor(null)
+				
+		elif selected_unit == null:
+			check_current_square()
+		
 		if(Input.is_action_just_pressed("action_button")):
 			select_unit()
-	
-	if selected_unit != null && !selected_unit.moving:
-		move()
-		selected_unit.find_selectable_squares()
-		if Input.is_action_just_pressed("action_button"):
-			var selected_square = get_current_square()
-			original_position = selected_unit.transform.origin
-			if selected_square.selectable:
-				selected_unit.set_movement(selected_square)
-				disable_cursor(null)
 		if(Input.is_action_just_pressed("cancel_button")):
 			clear()
-	
-	if selected_unit != null && selected_unit.moving && !selected_unit.has_moved:
-		selected_unit.find_selectable_squares()
-	
-	if selected_unit != null && selected_unit.has_moved && !selected_unit.turn_ended:
-		emit_signal("show_action_menu",selected_unit)
-		if(Input.is_action_just_pressed("cancel_button")):
-			clear()
-			selected_unit.has_moved = false
-			selected_unit.transform.origin = original_position
-			
-	
-	#if enabled:
-	#	move()
-		
-	#	if selected_unit != null && !selected_unit.moving:
-	#		selected_unit.find_selectable_squares()
-	#		if Input.is_action_just_pressed("action_button"):
-	#			var selected_square = get_current_square()
-	#			if selected_square.selectable:
-	#				selected_unit.set_movement(selected_square)
-	#				disable_cursor(null)
-	#			
-	#	elif selected_unit == null:
-	#		check_current_square()
-	#	
-	#	if(Input.is_action_just_pressed("action_button")):
-	#		select_unit()
-	#	if(Input.is_action_just_pressed("cancel_button")):
-	#		clear()
-	#	if manager.current_turn == 0 && !selected_unit.moving:
-	#	enable_cursor()
+		#if manager.current_turn == 0 && !selected_unit.moving:
+		#	enable_cursor()
 
 func move():
 	if ($cursor_timer.is_stopped() && cursor_moving):

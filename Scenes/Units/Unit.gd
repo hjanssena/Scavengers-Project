@@ -62,6 +62,23 @@ func find_selectable_squares(): #Assing all squares that apply the selectable, a
 	compute_adyacency_lists()
 	set_current_square()
 	
+	var ally
+	var enemy
+	var enemy_ally
+	
+	if allegiance == allegiances.player:
+		ally = allegiances.ally
+		enemy = allegiances.enemy
+		enemy_ally = 99
+	elif allegiance == allegiances.enemy:
+		ally = 99
+		enemy = allegiances.player
+		enemy_ally = allegiances.ally
+	else:
+		ally = allegiances.player
+		enemy = allegiances.enemy
+		enemy_ally = 99
+	
 	var square_queue: Array
 	square_queue.insert(square_queue.size(), current_square)
 	current_square.visited = true
@@ -81,24 +98,18 @@ func find_selectable_squares(): #Assing all squares that apply the selectable, a
 						s.distance = 1 + s.movement_cost + square.distance
 						s.selectable = true
 						square_queue.insert(square_queue.size(), s)
-					elif !s.visited && occupied != null && occupied.collider.get_parent().allegiance == allegiances.player:
-						s.current_parent = square
-						s.visited = true
-						s.distance = 1 + s.movement_cost + square.distance
-						s.selectable = false
-						square_queue.insert(square_queue.size(), s)
-					elif !s.visited && occupied != null && occupied.collider.get_parent().allegiance == allegiances.ally:
-						s.current_parent = square
-						s.visited = true
-						s.distance = 1 + s.movement_cost + square.distance
-						s.selectable = false
-						square_queue.insert(square_queue.size(), s)
-					elif !s.visited && occupied != null && occupied.collider.get_parent().allegiance == allegiances.enemy:
-						s.current_parent = square
-						s.visited = true
-						s.distance = 1 + s.movement_cost + square.distance
-						s.attackable = true
-						square_queue.insert(square_queue.size(), s)
+					if !s.visited && occupied != null:
+						if occupied.collider.get_parent().allegiance == allegiance || occupied.collider.get_parent().allegiance == ally:
+							s.current_parent = square
+							s.visited = true
+							s.distance = 1 + s.movement_cost + square.distance
+							s.selectable = false
+							square_queue.insert(square_queue.size(), s)
+					if !s.visited && occupied != null:
+						if occupied.collider.get_parent().allegiance == enemy || occupied.collider.get_parent().allegiance == enemy_ally:
+							s.visited = true
+							s.distance = 1 + s.movement_cost + square.distance
+							s.attackable = true
 			elif square.distance < movement + attack_range:
 				for s in square.adjacency_list:
 					var occupied = s.get_occupant()
@@ -108,12 +119,13 @@ func find_selectable_squares(): #Assing all squares that apply the selectable, a
 						s.distance = 1 + s.movement_cost + square.distance
 						s.attackable = true
 						square_queue.insert(square_queue.size(), s)
-					elif !s.visited && occupied != null && occupied.collider.get_parent().allegiance == allegiances.enemy:
-						s.current_parent = square
-						s.visited = true
-						s.distance = 1 + s.movement_cost + square.distance
-						s.attackable = true
-						square_queue.insert(square_queue.size(), s)
+					if !s.visited && occupied != null:
+						if occupied.collider.get_parent().allegiance == enemy || occupied.collider.get_parent().allegiance == enemy_ally:
+							s.current_parent = square
+							s.visited = true
+							s.distance = 1 + s.movement_cost + square.distance
+							s.attackable = true
+							square_queue.insert(square_queue.size(), s)
 		else:
 			if square.distance < attack_range:
 				for s in square.adjacency_list:
@@ -124,12 +136,13 @@ func find_selectable_squares(): #Assing all squares that apply the selectable, a
 						s.distance = 1 + s.movement_cost + square.distance
 						s.attackable = true
 						square_queue.insert(square_queue.size(), s)
-					elif !s.visited && occupied != null && occupied.collider.get_parent().allegiance == allegiances.enemy:
-						s.current_parent = square
-						s.visited = true
-						s.distance = 1 + s.movement_cost + square.distance
-						s.attackable = true
-						square_queue.insert(square_queue.size(), s)
+					elif !s.visited && occupied != null:
+						if occupied.collider.get_parent().allegiance == enemy || occupied.collider.get_parent().allegiance == enemy_ally:
+							s.current_parent = square
+							s.visited = true
+							s.distance = 1 + s.movement_cost + square.distance
+							s.attackable = true
+							square_queue.insert(square_queue.size(), s)
 
 func set_movement(target_square): #Builds the path for the unit to take when moving
 	var sqr = target_square

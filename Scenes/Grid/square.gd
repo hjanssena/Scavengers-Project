@@ -3,6 +3,7 @@ enum squareType {plain, mud, water, sand, mountain}
 
 #Movement variables
 @export var walkable: bool
+@export var wall: bool
 @export var flyable: bool
 
 #Breadth First Search
