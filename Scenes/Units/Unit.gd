@@ -17,7 +17,8 @@ var current_move_square
 var path: Array
 
 #unit status
-var has_moved
+var has_moved = false
+var turn_ended = false
 
 #unit stats
 var hitpoints #xd

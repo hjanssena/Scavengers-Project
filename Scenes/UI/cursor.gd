@@ -1,7 +1,10 @@
 extends Node2D
+signal show_action_menu (unit)
+signal hide_action_menu
 enum CursorMode {normal, target_select}
 
 var cursor_moving
+var original_position
 var selected_unit
 var enabled
 var manager
@@ -10,26 +13,55 @@ func _ready():
 	manager = get_node("/root/" + get_tree().get_current_scene().name + "/Manager")
 
 func _process(_delta):
-	if enabled:
+	if selected_unit == null:
 		move()
-		
-		if selected_unit != null && !selected_unit.moving:
-			selected_unit.find_selectable_squares()
-			if Input.is_action_just_pressed("action_button"):
-				var selected_square = get_current_square()
-				if selected_square.selectable:
-					selected_unit.set_movement(selected_square)
-					disable_cursor(null)
-				
-		elif selected_unit == null:
-			check_current_square()
-		
+		check_current_square()
 		if(Input.is_action_just_pressed("action_button")):
 			select_unit()
+	
+	if selected_unit != null && !selected_unit.moving:
+		move()
+		selected_unit.find_selectable_squares()
+		if Input.is_action_just_pressed("action_button"):
+			var selected_square = get_current_square()
+			original_position = selected_unit.transform.origin
+			if selected_square.selectable:
+				selected_unit.set_movement(selected_square)
+				disable_cursor(null)
 		if(Input.is_action_just_pressed("cancel_button")):
 			clear()
-	elif manager.current_turn == 0 && !selected_unit.moving:
-		enable_cursor()
+	
+	if selected_unit != null && selected_unit.moving && !selected_unit.has_moved:
+		selected_unit.find_selectable_squares()
+	
+	if selected_unit != null && selected_unit.has_moved && !selected_unit.turn_ended:
+		emit_signal("show_action_menu",selected_unit)
+		if(Input.is_action_just_pressed("cancel_button")):
+			clear()
+			selected_unit.has_moved = false
+			selected_unit.transform.origin = original_position
+			
+	
+	#if enabled:
+	#	move()
+		
+	#	if selected_unit != null && !selected_unit.moving:
+	#		selected_unit.find_selectable_squares()
+	#		if Input.is_action_just_pressed("action_button"):
+	#			var selected_square = get_current_square()
+	#			if selected_square.selectable:
+	#				selected_unit.set_movement(selected_square)
+	#				disable_cursor(null)
+	#			
+	#	elif selected_unit == null:
+	#		check_current_square()
+	#	
+	#	if(Input.is_action_just_pressed("action_button")):
+	#		select_unit()
+	#	if(Input.is_action_just_pressed("cancel_button")):
+	#		clear()
+	#	if manager.current_turn == 0 && !selected_unit.moving:
+	#	enable_cursor()
 
 func move():
 	if ($cursor_timer.is_stopped() && cursor_moving):
@@ -129,6 +161,7 @@ func select_unit():
 
 func clear():
 	selected_unit = null
+	original_position = null
 
 func enable_cursor(): #Add camera focus to cursor
 	enabled = true
@@ -137,3 +170,7 @@ func enable_cursor(): #Add camera focus to cursor
 func disable_cursor(camera_focus): #Remove camera focus to cursor and give it to the unit focus
 	enabled = false
 	$Sprite2D.hide()
+
+
+func _on_action_menu_focus_exited():
+	pass

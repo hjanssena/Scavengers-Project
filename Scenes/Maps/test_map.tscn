@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://be5jmr0cvhd8"]
+[gd_scene load_steps=8 format=3 uid="uid://be5jmr0cvhd8"]
 
 [ext_resource type="PackedScene" uid="uid://sp6t3qg5jph8" path="res://Scenes/Grid/grid.tscn" id="1_5strk"]
 [ext_resource type="PackedScene" uid="uid://knsxgxve7qiw" path="res://Scenes/manager.tscn" id="1_njh5f"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://drdcnkxcug7ia" path="res://Scenes/UI/cursor.tscn" id="3_ijtjv"]
 [ext_resource type="PackedScene" uid="uid://dy8ow3xay3kyc" path="res://Scenes/Units/player_unit.tscn" id="4_bpoys"]
 [ext_resource type="PackedScene" uid="uid://cexrhe04c2tjd" path="res://Scenes/Units/enemy_unit.tscn" id="6_6ektc"]
+[ext_resource type="PackedScene" uid="uid://btuww4lyujy22" path="res://Scenes/UI/In game ui/action_menu.tscn" id="7_0doii"]
 
 [node name="TestMap" type="Node2D"]
 
@@ -93,3 +94,11 @@ position = Vector2(224, 224)
 position = Vector2(32, 96)
 aggro_range = 130.0
 target_units = [NodePath("../PlayerUnit2")]
+
+[node name="InGameUI" type="Node" parent="."]
+
+[node name="ActionMenu" parent="InGameUI" instance=ExtResource("7_0doii")]
+
+[connection signal="hide_action_menu" from="Cursor" to="InGameUI/ActionMenu" method="_on_cursor_hide_action_menu"]
+[connection signal="show_action_menu" from="Cursor" to="InGameUI/ActionMenu" method="_on_cursor_show_action_menu"]
+[connection signal="focus_exited" from="InGameUI/ActionMenu" to="Cursor" method="_on_action_menu_focus_exited"]
