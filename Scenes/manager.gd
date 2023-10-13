@@ -28,13 +28,13 @@ func _process(_delta):
 		current_unit.start_turn(player_units, enemy_units, ally_units)
 
 func player_turn():
-	cursor.enable_cursor()
 	var all_ended = true
 	for unit in player_units:
 		if !unit.has_moved: #cambiar a has ended cuando ya se pueda atacar, esto es para pruebas
 			all_ended = false
 	if all_ended:
 		end_turn(player_units, turns.enemy)
+		cursor.selected_unit = null
 
 func enemy_turn():
 	if enemy_units.size() == 0: #If there are no enemy units left

@@ -56,5 +56,3 @@ func get_best_target(player_units, enemy_units, ally_units): #Main AI decision m
 				closest_square = square
 		return closest_square
 
-func end_turn():
-	moving = false

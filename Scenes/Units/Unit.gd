@@ -192,3 +192,6 @@ func get_available_adyacent_squares(unit, area):
 		next_iteration_squares.clear()
 		iterations += 1
 	return adyacent_squares
+
+func end_turn():
+	moving = false

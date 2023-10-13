@@ -1,5 +1,5 @@
 extends Node2D
-signal show_action_menu (unit)
+signal show_action_menu (cursor)
 signal hide_action_menu
 enum CursorMode {normal, target_select}
 
@@ -15,24 +15,24 @@ func _ready():
 func _process(_delta):
 	if enabled:
 		move()
-		
-		if selected_unit != null && !selected_unit.moving:
+		if selected_unit == null:
+			check_current_square()
+		elif selected_unit != null && !selected_unit.moving:
 			selected_unit.find_selectable_squares()
 			if Input.is_action_just_pressed("action_button"):
 				var selected_square = get_current_square()
 				if selected_square.selectable:
 					selected_unit.set_movement(selected_square)
 					disable_cursor(null)
-				
-		elif selected_unit == null:
-			check_current_square()
-		
 		if(Input.is_action_just_pressed("action_button")):
 			select_unit()
 		if(Input.is_action_just_pressed("cancel_button")):
 			clear()
-		#if manager.current_turn == 0 && !selected_unit.moving:
-		#	enable_cursor()
+	else:
+		if selected_unit == null && manager.current_turn == 0:
+			enable_cursor() 
+		elif !selected_unit.moving && selected_unit.has_moved && manager.current_turn == 0:
+			emit_signal("show_action_menu",self)
 
 func move():
 	if ($cursor_timer.is_stopped() && cursor_moving):
@@ -142,6 +142,3 @@ func disable_cursor(camera_focus): #Remove camera focus to cursor and give it to
 	enabled = false
 	$Sprite2D.hide()
 
-
-func _on_action_menu_focus_exited():
-	pass

@@ -87,6 +87,7 @@ position = Vector2(288, 224)
 aggro_range = 130.0
 target_units = [NodePath("../PlayerUnit")]
 level = null
+movement_speed = null
 
 [node name="PlayerUnit2" parent="Units" instance=ExtResource("4_bpoys")]
 position = Vector2(224, 224)
@@ -96,6 +97,7 @@ position = Vector2(32, 96)
 aggro_range = 130.0
 target_units = [NodePath("../PlayerUnit2")]
 level = null
+movement_speed = null
 
 [node name="InGameUI" type="Node" parent="."]
 
@@ -103,4 +105,3 @@ level = null
 
 [connection signal="hide_action_menu" from="Cursor" to="InGameUI/ActionMenu" method="_on_cursor_hide_action_menu"]
 [connection signal="show_action_menu" from="Cursor" to="InGameUI/ActionMenu" method="_on_cursor_show_action_menu"]
-[connection signal="focus_exited" from="InGameUI/ActionMenu" to="Cursor" method="_on_action_menu_focus_exited"]
