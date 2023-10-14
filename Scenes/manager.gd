@@ -30,7 +30,7 @@ func _process(_delta):
 func player_turn():
 	var all_ended = true
 	for unit in player_units:
-		if !unit.has_moved: #cambiar a has ended cuando ya se pueda atacar, esto es para pruebas
+		if !unit.turn_ended: #cambiar a has ended cuando ya se pueda atacar, esto es para pruebas
 			all_ended = false
 	if all_ended:
 		end_turn(player_units, turns.enemy)
@@ -40,7 +40,7 @@ func enemy_turn():
 	if enemy_units.size() == 0: #If there are no enemy units left
 		end_turn(enemy_units,turns.ally)
 	cursor.disable_cursor(cursor) #cambiar cuando ya se tenga camara
-	if current_unit == null || current_unit.has_moved:
+	if current_unit == null || current_unit.turn_ended:
 		set_next_unit(enemy_units)
 	if current_unit == null:
 		end_turn(enemy_units,turns.ally)
@@ -51,7 +51,7 @@ func ally_turn():
 	if enemy_units.size() == 0: #If there are no enemy units left
 		end_turn(ally_units,turns.player)
 	cursor.disable_cursor(cursor) #cambiar cuando ya se tenga camara
-	if current_unit == null || current_unit.has_moved:
+	if current_unit == null || current_unit.turn_ended:
 		set_next_unit(ally_units)
 	if current_unit == null:
 		end_turn(ally_units,turns.player)
@@ -72,6 +72,7 @@ func end_turn(units_array, next_turn):
 	current_turn = next_turn
 	for unit in units_array:
 		unit.has_moved = false #aca igual
+		unit.turn_ended = false
 
 func set_next_unit(unit_array: Array):
 	if unit_turn < unit_array.size() && unit_array.size() > 0:

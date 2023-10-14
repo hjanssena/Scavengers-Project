@@ -36,10 +36,12 @@ var speed_penalty = 0
 var skill_penalty = 0
 
 var manager
+var cursor
 
 func _ready():
 	position_in_grid = transform.get_origin()
 	manager = get_node("/root/" + get_tree().get_current_scene().name + "/Manager")
+	cursor = get_node("/root/" + get_tree().get_current_scene().name + "/Cursor")
 
 func _process(_delta):
 	if manager.current_turn == 0:
@@ -54,10 +56,16 @@ func set_color():
 		$SquareColor.color = Color.MAGENTA
 	elif interactable:
 		$SquareColor.color = Color.GREEN
+		if cursor.selected_unit == null:
+			$SquareColor.color.a = 0.5
 	elif selectable:
 		$SquareColor.color = Color.BLUE
+		if cursor.selected_unit == null:
+			$SquareColor.color.a = 0.5
 	elif attackable:
 		$SquareColor.color = Color.RED
+		if cursor.selected_unit == null:
+			$SquareColor.color.a = 0.5
 	else:
 		$SquareColor.color = Color.TRANSPARENT
 

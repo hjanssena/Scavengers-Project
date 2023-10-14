@@ -22,16 +22,18 @@ func _process(_delta):
 			if Input.is_action_just_pressed("action_button"):
 				var selected_square = get_current_square()
 				if selected_square.selectable:
+					original_position = selected_unit.transform.origin
 					selected_unit.set_movement(selected_square)
 					disable_cursor(null)
 		if(Input.is_action_just_pressed("action_button")):
 			select_unit()
-		if(Input.is_action_just_pressed("cancel_button")):
+		if(Input.is_action_just_pressed("cancel_button") && selected_unit != null):
+			transform.origin = selected_unit.transform.origin
 			clear()
 	else:
 		if selected_unit == null && manager.current_turn == 0:
 			enable_cursor() 
-		elif !selected_unit.moving && selected_unit.has_moved && manager.current_turn == 0:
+		elif selected_unit != null && !selected_unit.moving && selected_unit.has_moved && manager.current_turn == 0:
 			emit_signal("show_action_menu",self)
 
 func move():

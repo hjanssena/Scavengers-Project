@@ -10,6 +10,8 @@ var best_target
 func _process(delta):
 	if moving:
 		move(delta)
+	if has_moved:
+		end_turn()
 
 func start_turn(player_units, enemy_units, ally_units): #Here goes all the setup for the AI turn
 	find_selectable_squares()

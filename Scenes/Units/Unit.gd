@@ -29,16 +29,21 @@ var speed #Esquivadas y probabilidad de pegar una vez extra tal vez?
 var luck #Afecta criticos y esquivadas de manera oculta
 var defense #Defensa fisica
 var resistance #Resistencia magica
-var movement = 5 #movimiento en los tiles
+var movement = 3 #movimiento en los tiles
 var build #Puede servir para las empujadas
 
-var attack_range = 3
+var attack_range = 2
 
 func _ready():
 	get_square_array()
 
 func _process(delta):
 	move(delta)
+	
+	if turn_ended:
+		$AnimatedSprite2D.modulate.a = .6
+	else:
+		$AnimatedSprite2D.modulate.a = 1
 
 func get_current_square():
 	return get_target_square(transform.get_origin())
@@ -194,4 +199,4 @@ func get_available_adyacent_squares(unit, area):
 	return adyacent_squares
 
 func end_turn():
-	moving = false
+	turn_ended = true
