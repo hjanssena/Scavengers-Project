@@ -198,5 +198,19 @@ func get_available_adyacent_squares(unit, area):
 		iterations += 1
 	return adyacent_squares
 
+func attack(target):
+	var damage
+	damage = 5
+	target.take_damage(damage)
+
+func take_damage(damage):
+	hitpoints -= damage
+	$Label.show_damage(damage)
+
+func take_healing(healing):
+	hitpoints += healing
+	$Label.show_healing(healing)
+
 func end_turn():
 	turn_ended = true
+	has_moved = false

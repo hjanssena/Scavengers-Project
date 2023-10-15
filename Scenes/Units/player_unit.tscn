@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://dy8ow3xay3kyc"]
+[gd_scene load_steps=6 format=3 uid="uid://dy8ow3xay3kyc"]
 
 [ext_resource type="Texture2D" uid="uid://kili2gy8uh6q" path="res://Sprites/Testing/buzz.jpg" id="2_4d67t"]
+[ext_resource type="Script" path="res://Scenes/Units/Label.gd" id="3_25wxm"]
 [ext_resource type="Script" path="res://Scenes/Units/Player.gd" id="3_k1f40"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_2pjen"]
@@ -30,3 +31,12 @@ animation = &"walk"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("RectangleShape2D_mvbcd")
+
+[node name="Label" type="Label" parent="."]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -23.0
+offset_right = 40.0
+grow_vertical = 0
+script = ExtResource("3_25wxm")

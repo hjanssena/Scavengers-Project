@@ -35,6 +35,7 @@ func _process(_delta):
 			enable_cursor() 
 		elif selected_unit != null && !selected_unit.moving && selected_unit.has_moved && manager.current_turn == 0:
 			emit_signal("show_action_menu",self)
+			check_current_square()
 
 func move():
 	if ($cursor_timer.is_stopped() && cursor_moving):
@@ -129,7 +130,7 @@ func select_unit():
 	
 	var occupant = square_node.get_occupant()
 	
-	if(occupant != null && occupant.collider.get_parent().allegiance == 0):
+	if(occupant != null && occupant.collider.get_parent().allegiance == 0 && !occupant.collider.get_parent().turn_ended):
 		selected_unit = occupant.collider.get_parent()
 
 func clear():

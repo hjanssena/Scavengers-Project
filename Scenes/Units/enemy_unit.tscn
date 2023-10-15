@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://cexrhe04c2tjd"]
+[gd_scene load_steps=6 format=3 uid="uid://cexrhe04c2tjd"]
 
 [ext_resource type="Texture2D" uid="uid://kili2gy8uh6q" path="res://Sprites/Testing/buzz.jpg" id="1_r57y3"]
 [ext_resource type="Script" path="res://Scenes/Units/enemy_unit.gd" id="1_x0uen"]
+[ext_resource type="Script" path="res://Scenes/Units/Label.gd" id="3_tjsxv"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_dke34"]
 animations = [{
@@ -30,3 +31,12 @@ animation = &"walk"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("RectangleShape2D_8rt3d")
+
+[node name="Label" type="Label" parent="."]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -23.0
+offset_right = 40.0
+grow_vertical = 0
+script = ExtResource("3_tjsxv")

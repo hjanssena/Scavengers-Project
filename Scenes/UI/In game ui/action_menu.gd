@@ -17,7 +17,7 @@ func _process(delta):
 			visible = false
 
 func _on_attack_button_pressed():
-	pass 
+	pass
 
 func _on_skills_button_pressed():
 	pass 
