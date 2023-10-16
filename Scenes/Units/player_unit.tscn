@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://dy8ow3xay3kyc"]
+[gd_scene load_steps=7 format=3 uid="uid://dy8ow3xay3kyc"]
 
 [ext_resource type="Texture2D" uid="uid://kili2gy8uh6q" path="res://Sprites/Testing/buzz.jpg" id="2_4d67t"]
-[ext_resource type="Script" path="res://Scenes/Units/Label.gd" id="3_25wxm"]
+[ext_resource type="Script" path="res://Scenes/Units/dmg_label.gd" id="3_c223w"]
 [ext_resource type="Script" path="res://Scenes/Units/Player.gd" id="3_k1f40"]
+[ext_resource type="Theme" uid="uid://vxihndn3jmsd" path="res://Sprites/UI/Themes/InGameUI/IndividualHealthBar.tres" id="4_iittw"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_2pjen"]
 animations = [{
@@ -32,11 +33,43 @@ animation = &"walk"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("RectangleShape2D_mvbcd")
 
-[node name="Label" type="Label" parent="."]
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+
+[node name="Label" type="Label" parent="Control"]
+layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_top = -23.0
+offset_top = -63.0
 offset_right = 40.0
+offset_bottom = -40.0
 grow_vertical = 0
-script = ExtResource("3_25wxm")
+script = ExtResource("3_c223w")
+
+[node name="HPBar" type="ProgressBar" parent="Control"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 10.0
+offset_bottom = 37.0001
+grow_horizontal = 2
+grow_vertical = 0
+scale = Vector2(1, 0.2)
+theme = ExtResource("4_iittw")
+value = 50.0
+show_percentage = false

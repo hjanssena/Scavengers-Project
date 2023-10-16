@@ -21,7 +21,7 @@ var has_moved = false
 var turn_ended = false
 
 #unit stats
-var hitpoints #xd
+var max_hitpoints = 30 #xd
 var strength #Dano fisico
 var magic #Dano magico
 var skill #Afecta a la probabilidad de que no te esquiven y de criticos
@@ -32,10 +32,15 @@ var resistance #Resistencia magica
 var movement = 3 #movimiento en los tiles
 var build #Puede servir para las empujadas
 
+var hitpoints
+
 var attack_range = 2
 
 func _ready():
 	get_square_array()
+	$Control/HPBar.max_value = max_hitpoints
+	hitpoints = max_hitpoints
+	$Control/HPBar.value = hitpoints
 
 func _process(delta):
 	move(delta)
@@ -205,7 +210,8 @@ func attack(target):
 
 func take_damage(damage):
 	hitpoints -= damage
-	$Label.show_damage(damage)
+	$Control/Label.show_damage(damage)
+	$Control/HPBar.value = hitpoints
 
 func take_healing(healing):
 	hitpoints += healing

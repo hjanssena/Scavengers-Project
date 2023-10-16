@@ -46,6 +46,8 @@ func _ready():
 func _process(_delta):
 	if manager.current_turn == 0:
 		set_color()
+	else:
+		$SquareColor.color = Color.TRANSPARENT
 	find_neighbors()
 
 func set_square_type(): #Depending square type it gets assigned a speed, skill and movement penalty
