@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Skills" load_steps=2 format=3 uid="uid://dja1xwlk8q8bq"]
+
+[ext_resource type="Script" path="res://Data_Res/Skills/skills.gd" id="1_ysgi7"]
+
+[resource]
+script = ExtResource("1_ysgi7")
+name = ""
+type = 0
+description = ""
+dam_heal_value = 0
+level_scaling = 0
+cooldown = 0
+complexity = 0.0
+status_hit = 0.0
+range = Array[Vector2]([])
+area_of_effect = Array[Vector2]([])

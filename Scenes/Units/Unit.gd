@@ -26,15 +26,19 @@ var strength #Dano fisico
 var magic #Dano magico
 var skill #Afecta a la probabilidad de que no te esquiven y de criticos
 var speed #Esquivadas y probabilidad de pegar una vez extra tal vez?
-var luck #Afecta criticos y esquivadas de manera oculta
 var defense #Defensa fisica
 var resistance #Resistencia magica
 var movement = 3 #movimiento en los tiles
 var build #Puede servir para las empujadas
 
 var hitpoints
-
 var attack_range = 2
+
+#Resources
+var skill_tree
+var skills
+var map_sprite
+var portrait
 
 func _ready():
 	get_square_array()
@@ -203,10 +207,19 @@ func get_available_adyacent_squares(unit, area):
 		iterations += 1
 	return adyacent_squares
 
-func attack(target):
-	var damage
-	damage = 5
+func attack(target, skill): #Considerar que algunos skills van a tener un aoe
+	var damage = calculate_damage(target, skill)
 	target.take_damage(damage)
+
+func calculate_damage(target, skill): #Pendiente escribir funcion
+	var damage = 5
+	return damage
+
+func get_skill_damage(skill):
+	pass
+
+func get_skill_area(skill):
+	pass
 
 func take_damage(damage):
 	hitpoints -= damage

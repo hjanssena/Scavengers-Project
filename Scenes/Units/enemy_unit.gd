@@ -57,4 +57,3 @@ func get_best_target(player_units, enemy_units, ally_units): #Main AI decision m
 			elif current_square.position.distance_to(square.transform.origin) < current_square.position.distance_to(closest_square.transform.origin):
 				closest_square = square
 		return closest_square
-
