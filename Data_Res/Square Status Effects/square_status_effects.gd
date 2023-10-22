@@ -1,0 +1,3 @@
+extends Resource
+class_name Square_Status_Effects
+
