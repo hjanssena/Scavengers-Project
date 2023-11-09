@@ -5,6 +5,7 @@ enum Allignments{los_buenos}
 @export_category("Resources")
 @export var portrait: Sprite2D
 @export var map_sprite: AnimatedSprite2D
+@export var inventory: Array[Weapons]
 
 @export_category("Info")
 @export var name: String
@@ -42,3 +43,4 @@ enum Allignments{los_buenos}
 @export var magic_weapon: int
 @export var hacking: int
 @export var healing: int
+

@@ -8,9 +8,9 @@ var best_target
 @export var level = 1 #Mas adelante cuando se tengan los stats y el progreso, se podrian auto-generar los stats en base al nivel
 
 func _process(delta):
-	if moving:
+	if current_turn_status == turn_status.moving:
 		move(delta)
-	if has_moved:
+	if current_turn_status == turn_status.deciding_action:
 		end_turn()
 
 func start_turn(player_units, enemy_units, ally_units): #Here goes all the setup for the AI turn

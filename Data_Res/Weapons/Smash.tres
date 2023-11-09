@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="Weapons" load_steps=2 format=3 uid="uid://snaggc827k3j"]
+
+[ext_resource type="Script" path="res://Data_Res/Weapons/weapons.gd" id="1_gd6el"]
+
+[resource]
+script = ExtResource("1_gd6el")
+name = ""
+type = 0
+description = ""
+dam_heal_value = 0
+weapon_level = 0
+cooldown = 0
+weight = 0.0
+status_hit = 0.0
+aoe_value_scaling = 0.0
+throw_value = 0
+range = Array[Vector2]([])
+area_of_effect = Array[Vector2]([])
+throw_range = Array[Vector2]([])
+throw_area_of_effect = Array[Vector2]([])
+hit_points = 0
+strength = 0
+magic = 0
+defense = 0
+resistance = 0
+skill = 0
+speed = 0
+movement = 0

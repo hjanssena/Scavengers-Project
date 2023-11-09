@@ -7,35 +7,44 @@ var cursor_moving
 var original_position
 var selected_unit
 var enabled
+
+var is_action_menu_open = false
+
 var manager
 
 func _ready():
 	manager = get_node("/root/" + get_tree().get_current_scene().name + "/Manager")
 
 func _process(_delta):
-	if enabled:
-		move()
-		if selected_unit == null:
-			check_current_square()
-		elif selected_unit != null && !selected_unit.moving:
-			selected_unit.find_selectable_squares()
-			if Input.is_action_just_pressed("action_button"):
-				var selected_square = get_current_square()
-				if selected_square.selectable:
-					original_position = selected_unit.transform.origin
-					selected_unit.set_movement(selected_square)
-					disable_cursor(null)
-		if(Input.is_action_just_pressed("action_button")):
-			select_unit()
-		if(Input.is_action_just_pressed("cancel_button") && selected_unit != null):
-			transform.origin = selected_unit.transform.origin
-			clear()
-	else:
-		if selected_unit == null && manager.current_turn == 0:
-			enable_cursor() 
-		elif selected_unit != null && !selected_unit.moving && selected_unit.has_moved && manager.current_turn == 0:
-			emit_signal("show_action_menu",self)
-			check_current_square()
+	if manager.current_turn == 0:
+		
+		if(selected_unit != null):
+			match selected_unit.current_turn_status:
+				Unit.turn_status.deciding_move:
+					move()
+					selected_unit.find_selectable_squares()
+					if Input.is_action_just_pressed("action_button"):
+						move_unit()
+						disable_cursor()
+					if(Input.is_action_just_pressed("cancel_button")):
+						transform.origin = selected_unit.transform.origin
+						clear()
+				Unit.turn_status.deciding_action:
+					if (!is_action_menu_open):
+						emit_signal("show_action_menu",self)
+						disable_cursor()
+						check_current_square()
+						is_action_menu_open = true
+				Unit.turn_status.turn_ended:
+					selected_unit = null
+					enable_cursor()
+		else:
+			if !enabled: enable_cursor()
+			move()
+			if(Input.is_action_just_pressed("action_button")):
+				select_unit()
+	elif (enabled):
+		disable_cursor()
 
 func move():
 	if ($cursor_timer.is_stopped() && cursor_moving):
@@ -130,8 +139,17 @@ func select_unit():
 	
 	var occupant = square_node.get_occupant()
 	
-	if(occupant != null && occupant.collider.get_parent().allegiance == 0 && !occupant.collider.get_parent().turn_ended):
+	if(occupant != null && occupant.collider.get_parent().allegiance == 0 && occupant.collider.get_parent().current_turn_status != Unit.turn_status.turn_ended):
 		selected_unit = occupant.collider.get_parent()
+		selected_unit.current_turn_status = Unit.turn_status.deciding_move
+
+func move_unit():
+	var selected_square = get_current_square()
+	if selected_square.selectable:
+		original_position = selected_unit.transform.origin
+		selected_unit.set_movement(selected_square)
+		disable_cursor()
+		selected_unit.current_turn_status = Unit.turn_status.moving
 
 func clear():
 	selected_unit = null
@@ -139,9 +157,10 @@ func clear():
 
 func enable_cursor(): #Add camera focus to cursor
 	enabled = true
+	is_action_menu_open = false
 	$Sprite2D.show()
 
-func disable_cursor(camera_focus): #Remove camera focus to cursor and give it to the unit focus
+func disable_cursor(): #Remove camera focus to cursor and give it to the unit focus
 	enabled = false
 	$Sprite2D.hide()
 

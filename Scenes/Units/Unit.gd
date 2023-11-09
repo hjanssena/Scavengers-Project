@@ -2,6 +2,7 @@ extends Node2D
 
 class_name Unit
 
+enum turn_status {not_selected, deciding_move, moving, deciding_action, doing_action, turn_ended}
 enum allegiances {player, enemy, ally}
 @export var allegiance: allegiances
 
@@ -12,13 +13,11 @@ var selectable_squares: Array
 
 #board movement
 @export var movement_speed = 130
-var moving = false
 var current_move_square
 var path: Array
 
 #unit status
-var has_moved = false
-var turn_ended = false
+var current_turn_status = turn_status.not_selected
 
 #unit stats
 var max_hitpoints = 30 #xd
@@ -32,7 +31,7 @@ var movement = 3 #movimiento en los tiles
 var build #Puede servir para las empujadas
 
 var hitpoints
-var attack_range = 2
+var attack_range = 3
 
 #Resources
 var skill_tree
@@ -49,7 +48,7 @@ func _ready():
 func _process(delta):
 	move(delta)
 	
-	if turn_ended:
+	if current_turn_status == turn_status.turn_ended:
 		$AnimatedSprite2D.modulate.a = .6
 	else:
 		$AnimatedSprite2D.modulate.a = 1
@@ -102,7 +101,7 @@ func find_selectable_squares(): #Assing all squares that apply the selectable, a
 		var square = square_queue[0]
 		square_queue.remove_at(0)
 		
-		if !has_moved:
+		if current_turn_status == turn_status.not_selected || turn_status.deciding_move:
 			if square.distance < movement:
 				for s in square.adjacency_list:
 					var occupied = s.get_occupant()
@@ -164,10 +163,10 @@ func set_movement(target_square): #Builds the path for the unit to take when mov
 	while sqr != current_square:
 		sqr = sqr.current_parent
 		path.insert(path.size(), sqr)
-	moving = true
+	current_turn_status = turn_status.moving
 
 func move(delta):
-	if moving:
+	if current_turn_status == turn_status.moving:
 		var direction = Vector2(path[path.size() -1].transform.get_origin().x + 32, path[path.size() -1].transform.get_origin().y + 32)
 		var velocity = position.direction_to(direction) * movement_speed
 		
@@ -176,8 +175,7 @@ func move(delta):
 			path.remove_at(path.size() -1)
 			if(path.size() <= 0):
 				path.clear()
-				has_moved = true
-				moving = false
+				current_turn_status = turn_status.deciding_action
 		else:
 			#look_at(path[0].transform.get_origin())
 			transform.origin = transform.origin + velocity * delta
@@ -231,5 +229,4 @@ func take_healing(healing):
 	$Label.show_healing(healing)
 
 func end_turn():
-	turn_ended = true
-	has_moved = false
+	current_turn_status = turn_status.turn_ended

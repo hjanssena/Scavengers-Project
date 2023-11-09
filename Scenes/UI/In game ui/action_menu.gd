@@ -1,6 +1,10 @@
 extends Control
+signal show_attack_menu (cursor)
+signal hide_attack_menu
+
 var current_unit
 var cursor
+var attack_menu
 
 func _ready():
 	visible = false
@@ -12,12 +16,14 @@ func _process(delta):
 			cursor.enable_cursor()
 			current_unit.transform.origin = cursor.original_position
 			cursor.transform.origin = cursor.original_position
-			current_unit.has_moved = false
-			current_unit.moving = false
+			current_unit.current_turn_status = Unit.turn_status.deciding_move
 			visible = false
 
 func _on_attack_button_pressed():
-	pass
+	$VBoxContainer/AttackButton.release_focus()
+	visible = false
+	emit_signal("show_attack_menu",cursor)
+
 
 func _on_skills_button_pressed():
 	pass 
@@ -32,8 +38,13 @@ func _on_cursor_show_action_menu(map_cursor):
 		cursor = map_cursor
 		current_unit = cursor.selected_unit
 		visible = true
-		$VBoxContainer/AttackButton.grab_focus()
+		$VBoxContainer/AttackButton.grab_focus();
 
 func _on_cursor_hide_action_menu():
 	visible = false
 	current_unit = null
+
+
+func _on_attack_menu_show_action_menu():
+	visible = true
+	$VBoxContainer/AttackButton.grab_focus();

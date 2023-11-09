@@ -1,5 +1,6 @@
 #Controls the player-enemy-ally turns and the AI turns
 extends Node
+class_name Manager
 enum turns {player, enemy, ally}
 
 var cursor
@@ -24,13 +25,13 @@ func _process(_delta):
 	elif current_turn == turns.ally:
 		ally_turn()
 	
-	if current_unit != null && !current_unit.moving:
+	if current_unit != null && current_unit.current_turn_status == Unit.turn_status.not_selected:
 		current_unit.start_turn(player_units, enemy_units, ally_units)
 
 func player_turn():
 	var all_ended = true
 	for unit in player_units:
-		if !unit.turn_ended: #cambiar a has ended cuando ya se pueda atacar, esto es para pruebas
+		if unit.current_turn_status != Unit.turn_status.turn_ended: #cambiar a has ended cuando ya se pueda atacar, esto es para pruebas
 			all_ended = false
 	if all_ended:
 		end_turn(player_units, turns.enemy)
@@ -39,8 +40,8 @@ func player_turn():
 func enemy_turn():
 	if enemy_units.size() == 0: #If there are no enemy units left
 		end_turn(enemy_units,turns.ally)
-	cursor.disable_cursor(cursor) #cambiar cuando ya se tenga camara
-	if current_unit == null || current_unit.turn_ended:
+	cursor.disable_cursor() #cambiar cuando ya se tenga camara
+	if current_unit == null || current_unit.current_turn_status == Unit.turn_status.turn_ended:
 		set_next_unit(enemy_units)
 	if current_unit == null:
 		end_turn(enemy_units,turns.ally)
@@ -50,8 +51,8 @@ func enemy_turn():
 func ally_turn():
 	if enemy_units.size() == 0: #If there are no enemy units left
 		end_turn(ally_units,turns.player)
-	cursor.disable_cursor(cursor) #cambiar cuando ya se tenga camara
-	if current_unit == null || current_unit.turn_ended:
+	cursor.disable_cursor() #cambiar cuando ya se tenga camara
+	if current_unit == null || current_unit.current_turn_status == Unit.turn_status.turn_ended:
 		set_next_unit(ally_units)
 	if current_unit == null:
 		end_turn(ally_units,turns.player)
@@ -71,8 +72,7 @@ func classify_units():
 func end_turn(units_array, next_turn):
 	current_turn = next_turn
 	for unit in units_array:
-		unit.has_moved = false #aca igual
-		unit.turn_ended = false
+		unit.current_turn_status = Unit.turn_status.not_selected
 
 func set_next_unit(unit_array: Array):
 	if unit_turn < unit_array.size() && unit_array.size() > 0:

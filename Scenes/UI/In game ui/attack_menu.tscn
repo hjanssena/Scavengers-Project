@@ -1,62 +1,35 @@
-[gd_scene format=3 uid="uid://stnbcpgto1e5"]
+[gd_scene load_steps=2 format=3 uid="uid://stnbcpgto1e5"]
+
+[ext_resource type="Script" path="res://Scenes/UI/In game ui/attack_menu.gd" id="1_5tqe1"]
 
 [node name="AttackMenu" type="Control"]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
+script = ExtResource("1_5tqe1")
 
 [node name="MainVBox" type="VBoxContainer" parent="."]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="StatisticsHBox" type="HBoxContainer" parent="MainVBox"]
+[node name="Weapon1" type="Button" parent="MainVBox"]
 layout_mode = 2
+text = "Weapon1"
 
-[node name="LabelsVBox" type="VBoxContainer" parent="MainVBox/StatisticsHBox"]
+[node name="Weapon2" type="Button" parent="MainVBox"]
 layout_mode = 2
+text = "Weapon2"
 
-[node name="HPLabel" type="Label" parent="MainVBox/StatisticsHBox/LabelsVBox"]
+[node name="Weapon3" type="Button" parent="MainVBox"]
 layout_mode = 2
-text = "HP"
+text = "Weapon3"
 
-[node name="DmgLabel" type="Label" parent="MainVBox/StatisticsHBox/LabelsVBox"]
+[node name="Weapon4" type="Button" parent="MainVBox"]
 layout_mode = 2
-text = "Dmg"
+text = "Weapon4"
 
-[node name="HitLabel" type="Label" parent="MainVBox/StatisticsHBox/LabelsVBox"]
+[node name="Weapon5" type="Button" parent="MainVBox"]
 layout_mode = 2
-text = "Hit %"
-
-[node name="CritLabel" type="Label" parent="MainVBox/StatisticsHBox/LabelsVBox"]
-layout_mode = 2
-text = "Crit %"
-
-[node name="ResultsVBox" type="VBoxContainer" parent="MainVBox/StatisticsHBox"]
-layout_mode = 2
-
-[node name="HPResult" type="Label" parent="MainVBox/StatisticsHBox/ResultsVBox"]
-layout_mode = 2
-
-[node name="DmgResult" type="Label" parent="MainVBox/StatisticsHBox/ResultsVBox"]
-layout_mode = 2
-
-[node name="HitResult" type="Label" parent="MainVBox/StatisticsHBox/ResultsVBox"]
-layout_mode = 2
-
-[node name="CritResult" type="Label" parent="MainVBox/StatisticsHBox/ResultsVBox"]
-layout_mode = 2
-
-[node name="HBoxContainer" type="HBoxContainer" parent="MainVBox"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="MainVBox/HBoxContainer"]
-layout_mode = 2
-text = "Skills"
-
-[node name="VBoxContainer" type="VBoxContainer" parent="MainVBox/HBoxContainer"]
-layout_mode = 2
-
-[node name="VScrollBar" type="VScrollBar" parent="MainVBox/HBoxContainer/VBoxContainer"]
-layout_mode = 2
+text = "Weapon5"

@@ -101,7 +101,9 @@ target_units = [NodePath("../PlayerUnit2")]
 [node name="ActionMenu" parent="InGameUI" instance=ExtResource("7_0doii")]
 
 [node name="AttackMenu" parent="InGameUI" instance=ExtResource("8_16upe")]
-visible = false
 
 [connection signal="hide_action_menu" from="Cursor" to="InGameUI/ActionMenu" method="_on_cursor_hide_action_menu"]
 [connection signal="show_action_menu" from="Cursor" to="InGameUI/ActionMenu" method="_on_cursor_show_action_menu"]
+[connection signal="hide_attack_menu" from="InGameUI/ActionMenu" to="InGameUI/AttackMenu" method="_on_action_menu_hide_attack_menu"]
+[connection signal="show_attack_menu" from="InGameUI/ActionMenu" to="InGameUI/AttackMenu" method="_on_action_menu_show_attack_menu"]
+[connection signal="show_action_menu" from="InGameUI/AttackMenu" to="InGameUI/ActionMenu" method="_on_attack_menu_show_action_menu"]
