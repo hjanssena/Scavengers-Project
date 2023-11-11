@@ -23,6 +23,7 @@ func _process(_delta):
 		if(selected_unit != null):
 			match selected_unit.current_turn_status:
 				Unit.turn_status.deciding_move:
+					manager.set_camera_target(self)
 					move()
 					selected_unit.find_selectable_squares()
 					if Input.is_action_just_pressed("action_button") && get_current_square().selectable:
@@ -31,7 +32,10 @@ func _process(_delta):
 					if Input.is_action_just_pressed("cancel_button"):
 						transform.origin = selected_unit.transform.origin
 						clear()
+				Unit.turn_status.moving:
+					manager.set_camera_target(selected_unit)
 				Unit.turn_status.deciding_action:
+					manager.set_camera_target(self)
 					if (!is_action_menu_open):
 						emit_signal("show_action_menu",self)
 						disable_cursor()
@@ -54,6 +58,7 @@ func _process(_delta):
 					selected_unit = null
 					enable_cursor()
 		else:
+			manager.set_camera_target(self)
 			if !enabled: enable_cursor()
 			move()
 			check_current_square()

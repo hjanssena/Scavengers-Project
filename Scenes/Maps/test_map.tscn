@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://be5jmr0cvhd8"]
+[gd_scene load_steps=11 format=3 uid="uid://be5jmr0cvhd8"]
 
 [ext_resource type="PackedScene" uid="uid://sp6t3qg5jph8" path="res://Scenes/Grid/grid.tscn" id="1_5strk"]
 [ext_resource type="PackedScene" uid="uid://knsxgxve7qiw" path="res://Scenes/manager.tscn" id="1_njh5f"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://cexrhe04c2tjd" path="res://Scenes/Units/enemy_unit.tscn" id="6_6ektc"]
 [ext_resource type="PackedScene" uid="uid://btuww4lyujy22" path="res://Scenes/UI/In game ui/action_menu.tscn" id="7_0doii"]
 [ext_resource type="PackedScene" uid="uid://stnbcpgto1e5" path="res://Scenes/UI/In game ui/attack_menu.tscn" id="8_16upe"]
+[ext_resource type="Script" path="res://Scenes/InGameElements/InGameCamera.gd" id="8_ljfla"]
 
 [node name="TestMap" type="Node2D"]
 
@@ -101,7 +102,12 @@ aggro_range = 130.0
 target_units = [NodePath("../PlayerUnit2")]
 info = ExtResource("6_0giqx")
 
-[node name="InGameUI" type="Node" parent="."]
+[node name="InGameCamera" type="Camera2D" parent="."]
+position_smoothing_enabled = true
+position_smoothing_speed = 3.0
+script = ExtResource("8_ljfla")
+
+[node name="InGameUI" type="CanvasLayer" parent="."]
 
 [node name="ActionMenu" parent="InGameUI" instance=ExtResource("7_0doii")]
 

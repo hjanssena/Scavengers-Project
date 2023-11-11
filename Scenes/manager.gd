@@ -6,6 +6,7 @@ enum turns {player, enemy, ally}
 
 #Elements
 var cursor
+var camera
 var grid
 var player_units: Array
 var enemy_units: Array
@@ -20,6 +21,8 @@ var peek_bars_on
 func _ready():
 	cursor = get_node("/root/" + get_tree().get_current_scene().name + "/Cursor")
 	grid = get_node("/root/" + get_tree().get_current_scene().name + "/Grid")
+	camera = get_node("/root/" + get_tree().get_current_scene().name + "/InGameCamera")
+	camera.target = cursor
 	classify_units()
 
 func _process(_delta):
@@ -77,7 +80,8 @@ func classify_units():
 func end_turn(units_array, next_turn):
 	current_turn = next_turn
 	for unit in units_array:
-		unit.current_turn_status = Unit.turn_status.not_selected
+		if unit.current_turn_status != Unit.turn_status.dead:
+			unit.current_turn_status = Unit.turn_status.not_selected
 
 func set_next_unit(unit_array: Array):
 	if unit_turn < unit_array.size() && unit_array.size() > 0:
@@ -86,6 +90,9 @@ func set_next_unit(unit_array: Array):
 	else:
 		unit_turn = 0
 		current_unit = null
+
+func set_camera_target(target: Node2D):
+		camera.target = target
 
 func _on_peek_bars_timer_timeout():
 	if peek_bars_on: peek_bars_on = false
