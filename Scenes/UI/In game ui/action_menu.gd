@@ -24,7 +24,6 @@ func _on_attack_button_pressed():
 	visible = false
 	emit_signal("show_attack_menu",cursor)
 
-
 func _on_skills_button_pressed():
 	pass 
 

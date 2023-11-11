@@ -1,0 +1,36 @@
+[gd_resource type="Resource" script_class="unit_info" load_steps=3 format=3 uid="uid://07o0ilwdmied"]
+
+[ext_resource type="Resource" uid="uid://snaggc827k3j" path="res://Data_Res/Weapons/Smash.tres" id="1_4423h"]
+[ext_resource type="Script" path="res://Data_Res/Units/unit_info.gd" id="1_ibjb0"]
+
+[resource]
+script = ExtResource("1_ibjb0")
+inventory = Array[Resource("res://Data_Res/Weapons/weapons.gd")]([ExtResource("1_4423h"), ExtResource("1_4423h"), ExtResource("1_4423h"), ExtResource("1_4423h"), ExtResource("1_4423h")])
+name = "Testing"
+description = ""
+allignment = 0
+level = 1
+hit_points = 10
+strength = 1
+magic_stat = 1
+defense = 1
+resistance = 1
+skill = 1
+speed = 1
+build = 1
+hit_points_growth = 1
+strength_growth = 0
+magic_stat_growth = 0
+defense_growth = 0
+resistance_growth = 0
+skill_growth = 0
+speed_growth = 0
+build_growth = 0
+heavy_melee = 0
+light_melee = 0
+heavy_gun = 0
+light_gun = 0
+shield = 0
+magic_weapon = 0
+hacking = 0
+healing = 0

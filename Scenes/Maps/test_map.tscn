@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://be5jmr0cvhd8"]
+[gd_scene load_steps=10 format=3 uid="uid://be5jmr0cvhd8"]
 
 [ext_resource type="PackedScene" uid="uid://sp6t3qg5jph8" path="res://Scenes/Grid/grid.tscn" id="1_5strk"]
 [ext_resource type="PackedScene" uid="uid://knsxgxve7qiw" path="res://Scenes/manager.tscn" id="1_njh5f"]
 [ext_resource type="PackedScene" uid="uid://bcd1374lsj3q4" path="res://Scenes/Grid/square.tscn" id="2_3l18j"]
 [ext_resource type="PackedScene" uid="uid://drdcnkxcug7ia" path="res://Scenes/UI/cursor.tscn" id="3_ijtjv"]
 [ext_resource type="PackedScene" uid="uid://dy8ow3xay3kyc" path="res://Scenes/Units/player_unit.tscn" id="4_bpoys"]
+[ext_resource type="Resource" uid="uid://07o0ilwdmied" path="res://Data_Res/Units/Player Units/Testing.tres" id="6_0giqx"]
 [ext_resource type="PackedScene" uid="uid://cexrhe04c2tjd" path="res://Scenes/Units/enemy_unit.tscn" id="6_6ektc"]
 [ext_resource type="PackedScene" uid="uid://btuww4lyujy22" path="res://Scenes/UI/In game ui/action_menu.tscn" id="7_0doii"]
 [ext_resource type="PackedScene" uid="uid://stnbcpgto1e5" path="res://Scenes/UI/In game ui/attack_menu.tscn" id="8_16upe"]
@@ -83,18 +84,22 @@ metadata/_edit_group_ = true
 
 [node name="PlayerUnit" parent="Units" instance=ExtResource("4_bpoys")]
 position = Vector2(288, 224)
+info = ExtResource("6_0giqx")
 
 [node name="EnemyUnit" parent="Units" node_paths=PackedStringArray("target_units") instance=ExtResource("6_6ektc")]
 aggro_range = 130.0
 target_units = [NodePath("../PlayerUnit")]
+info = ExtResource("6_0giqx")
 
 [node name="PlayerUnit2" parent="Units" instance=ExtResource("4_bpoys")]
 position = Vector2(224, 224)
+info = ExtResource("6_0giqx")
 
 [node name="EnemyUnit2" parent="Units" node_paths=PackedStringArray("target_units") instance=ExtResource("6_6ektc")]
 position = Vector2(32, 96)
 aggro_range = 130.0
 target_units = [NodePath("../PlayerUnit2")]
+info = ExtResource("6_0giqx")
 
 [node name="InGameUI" type="Node" parent="."]
 
@@ -104,6 +109,7 @@ target_units = [NodePath("../PlayerUnit2")]
 
 [connection signal="hide_action_menu" from="Cursor" to="InGameUI/ActionMenu" method="_on_cursor_hide_action_menu"]
 [connection signal="show_action_menu" from="Cursor" to="InGameUI/ActionMenu" method="_on_cursor_show_action_menu"]
+[connection signal="show_attack_menu" from="Cursor" to="InGameUI/AttackMenu" method="_on_cursor_show_attack_menu"]
 [connection signal="hide_attack_menu" from="InGameUI/ActionMenu" to="InGameUI/AttackMenu" method="_on_action_menu_hide_attack_menu"]
 [connection signal="show_attack_menu" from="InGameUI/ActionMenu" to="InGameUI/AttackMenu" method="_on_action_menu_show_attack_menu"]
 [connection signal="show_action_menu" from="InGameUI/AttackMenu" to="InGameUI/ActionMenu" method="_on_attack_menu_show_action_menu"]

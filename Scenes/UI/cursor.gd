@@ -1,11 +1,14 @@
 extends Node2D
 signal show_action_menu (cursor)
 signal hide_action_menu
+signal show_attack_menu (cursor)
+
 enum CursorMode {normal, target_select}
 
 var cursor_moving
 var original_position
 var selected_unit
+var selected_weapon
 var enabled
 
 var is_action_menu_open = false
@@ -17,16 +20,15 @@ func _ready():
 
 func _process(_delta):
 	if manager.current_turn == 0:
-		
 		if(selected_unit != null):
 			match selected_unit.current_turn_status:
 				Unit.turn_status.deciding_move:
 					move()
 					selected_unit.find_selectable_squares()
-					if Input.is_action_just_pressed("action_button"):
+					if Input.is_action_just_pressed("action_button") && get_current_square().selectable:
 						move_unit()
 						disable_cursor()
-					if(Input.is_action_just_pressed("cancel_button")):
+					if Input.is_action_just_pressed("cancel_button"):
 						transform.origin = selected_unit.transform.origin
 						clear()
 				Unit.turn_status.deciding_action:
@@ -35,12 +37,26 @@ func _process(_delta):
 						disable_cursor()
 						check_current_square()
 						is_action_menu_open = true
+				Unit.turn_status.deciding_target:
+					enable_cursor()
+					move()
+					selected_unit.get_weapon_range(selected_weapon)
+					if get_current_square().attackable: selected_unit.get_weapon_aoe(selected_weapon, self)
+					if Input.is_action_just_pressed("cancel_button"):
+						disable_cursor()
+						selected_unit.current_turn_status = Unit.turn_status.deciding_action
+						is_action_menu_open = true
+						emit_signal("show_attack_menu",self)
+					if Input.is_action_just_pressed("action_button"):
+						selected_unit.current_turn_status = Unit.turn_status.doing_action
+						selected_unit.attack(self, selected_weapon)
 				Unit.turn_status.turn_ended:
 					selected_unit = null
 					enable_cursor()
 		else:
 			if !enabled: enable_cursor()
 			move()
+			check_current_square()
 			if(Input.is_action_just_pressed("action_button")):
 				select_unit()
 	elif (enabled):

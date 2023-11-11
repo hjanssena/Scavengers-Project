@@ -4,3 +4,9 @@
 
 [node name="Manager" type="Node"]
 script = ExtResource("1_2ap6y")
+
+[node name="PeekBarsTimer" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
+
+[connection signal="timeout" from="PeekBarsTimer" to="." method="_on_peek_bars_timer_timeout"]

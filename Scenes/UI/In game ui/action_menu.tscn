@@ -25,21 +25,21 @@ grow_vertical = 2
 [node name="AttackButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 focus_neighbor_top = NodePath("../WaitButton")
-focus_neighbor_bottom = NodePath("../SkillsButton")
+focus_neighbor_bottom = NodePath("../ThrowButton")
 text = "Attack"
 
-[node name="SkillsButton" type="Button" parent="VBoxContainer"]
+[node name="ThrowButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 focus_neighbor_top = NodePath("../AttackButton")
 focus_neighbor_bottom = NodePath("../WaitButton")
-text = "Skills"
+text = "Throw"
 
 [node name="WaitButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2
-focus_neighbor_top = NodePath("../SkillsButton")
+focus_neighbor_top = NodePath("../ThrowButton")
 focus_neighbor_bottom = NodePath("../AttackButton")
 text = "Wait"
 
 [connection signal="pressed" from="VBoxContainer/AttackButton" to="." method="_on_attack_button_pressed"]
-[connection signal="pressed" from="VBoxContainer/SkillsButton" to="." method="_on_skills_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/ThrowButton" to="." method="_on_skills_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/WaitButton" to="." method="_on_wait_button_pressed"]

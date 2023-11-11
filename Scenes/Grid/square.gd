@@ -21,6 +21,7 @@ var current = false #Your current square
 var interactable #You can heal or interact with an object
 var selectable #You can walk there
 var attackable #You can attack it
+var affected #Its affected by the aoe
 
 #For A*
 var f = 0
@@ -56,6 +57,10 @@ func set_square_type(): #Depending square type it gets assigned a speed, skill a
 func set_color():
 	if current:
 		$SquareColor.color = Color.MAGENTA
+	elif affected:
+		$SquareColor.color = Color.ORANGE
+		if cursor.selected_unit == null:
+			$SquareColor.color.a = 0.5
 	elif interactable:
 		$SquareColor.color = Color.GREEN
 		if cursor.selected_unit == null:
@@ -78,6 +83,7 @@ func reset_values():
 	interactable = false
 	selectable = false
 	attackable = false
+	affected = false
 	
 	visited = false
 	distance = 0
@@ -133,6 +139,22 @@ func get_occupant():
 	else:
 		return result
 
+func get_occupant_unit():
+	var square_pos = transform.get_origin()
+	var target_pos = square_pos
+	target_pos.x += 32
+	target_pos.y += 32 
+	
+	var space_state = get_world_2d().direct_space_state
+	var query = PhysicsRayQueryParameters2D.create(square_pos, target_pos)
+	query.collide_with_areas = true
+	var result = space_state.intersect_ray(query)
+	
+	if result.is_empty():
+		return null
+	else:
+		return result.collider.get_parent()
+
 func get_neighbors():
 	var squares: Array
 	
@@ -170,7 +192,6 @@ func get_available_neighbors():
 	for s in squares:
 		if square == null:
 			squares.erase(square)
-	
 	return squares
 
 func get_available_adyacent_square(direction):

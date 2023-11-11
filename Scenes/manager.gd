@@ -1,16 +1,21 @@
 #Controls the player-enemy-ally turns and the AI turns
 extends Node
 class_name Manager
+signal peek_bars_tick
 enum turns {player, enemy, ally}
 
+#Elements
 var cursor
 var grid
 var player_units: Array
 var enemy_units: Array
 var ally_units: Array
+
+#Control
 var current_unit
 var unit_turn = 0 #Controla el numero de turno de las unidades AI
 var current_turn = turns.player
+var peek_bars_on
 
 func _ready():
 	cursor = get_node("/root/" + get_tree().get_current_scene().name + "/Cursor")
@@ -41,7 +46,7 @@ func enemy_turn():
 	if enemy_units.size() == 0: #If there are no enemy units left
 		end_turn(enemy_units,turns.ally)
 	cursor.disable_cursor() #cambiar cuando ya se tenga camara
-	if current_unit == null || current_unit.current_turn_status == Unit.turn_status.turn_ended:
+	if current_unit == null || current_unit.current_turn_status == Unit.turn_status.turn_ended || current_unit.current_turn_status == Unit.turn_status.dead:
 		set_next_unit(enemy_units)
 	if current_unit == null:
 		end_turn(enemy_units,turns.ally)
@@ -81,3 +86,7 @@ func set_next_unit(unit_array: Array):
 	else:
 		unit_turn = 0
 		current_unit = null
+
+func _on_peek_bars_timer_timeout():
+	if peek_bars_on: peek_bars_on = false
+	else: peek_bars_on = true

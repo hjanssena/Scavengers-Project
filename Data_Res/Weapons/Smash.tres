@@ -4,18 +4,18 @@
 
 [resource]
 script = ExtResource("1_gd6el")
-name = ""
+name = "Smash"
 type = 0
 description = ""
-dam_heal_value = 0
+dam_heal_value = 5
 weapon_level = 0
 cooldown = 0
 weight = 0.0
 status_hit = 0.0
 aoe_value_scaling = 0.0
 throw_value = 0
-range = Array[Vector2]([])
-area_of_effect = Array[Vector2]([])
+range = Array[Vector2]([Vector2(1, 0), Vector2(0, 1), Vector2(-1, 0), Vector2(0, -1), Vector2(1, 1), Vector2(1, -1), Vector2(-1, 1), Vector2(-1, -1)])
+area_of_effect = Array[Vector2]([Vector2(1, 0), Vector2(0, 1), Vector2(-1, 0), Vector2(0, -1), Vector2(0, 0)])
 throw_range = Array[Vector2]([])
 throw_area_of_effect = Array[Vector2]([])
 hit_points = 0

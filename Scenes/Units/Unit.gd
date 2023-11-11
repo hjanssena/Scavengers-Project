@@ -2,7 +2,7 @@ extends Node2D
 
 class_name Unit
 
-enum turn_status {not_selected, deciding_move, moving, deciding_action, doing_action, turn_ended}
+enum turn_status {not_selected, deciding_move, moving, deciding_action, deciding_target, doing_action, turn_ended, dead}
 enum allegiances {player, enemy, ally}
 @export var allegiance: allegiances
 
@@ -20,7 +20,6 @@ var path: Array
 var current_turn_status = turn_status.not_selected
 
 #unit stats
-var max_hitpoints = 30 #xd
 var strength #Dano fisico
 var magic #Dano magico
 var skill #Afecta a la probabilidad de que no te esquiven y de criticos
@@ -38,16 +37,16 @@ var skill_tree
 var skills
 var map_sprite
 var portrait
+@export var info: unit_info
 
 func _ready():
 	get_square_array()
-	$Control/HPBar.max_value = max_hitpoints
-	hitpoints = max_hitpoints
+	$Control/HPBar.max_value = info.hit_points
+	hitpoints = info.hit_points
 	$Control/HPBar.value = hitpoints
 
 func _process(delta):
 	move(delta)
-	
 	if current_turn_status == turn_status.turn_ended:
 		$AnimatedSprite2D.modulate.a = .6
 	else:
@@ -177,7 +176,6 @@ func move(delta):
 				path.clear()
 				current_turn_status = turn_status.deciding_action
 		else:
-			#look_at(path[0].transform.get_origin())
 			transform.origin = transform.origin + velocity * delta
 
 func compute_adyacency_lists():
@@ -205,24 +203,50 @@ func get_available_adyacent_squares(unit, area):
 		iterations += 1
 	return adyacent_squares
 
-func attack(target, skill): #Considerar que algunos skills van a tener un aoe
-	var damage = calculate_damage(target, skill)
-	target.take_damage(damage)
+func attack(target, weapon):
+	for aoe in weapon.area_of_effect:
+		aoe.x = aoe.x * 64 + target.transform.origin.x
+		aoe.y = aoe.y * 64 + target.transform.origin.y
+		var square = get_target_square(aoe)
+		if square != null:
+			var occupant = square.get_occupant_unit()
+			if occupant != null && occupant.allegiance != allegiance:
+				occupant.take_damage(get_weapon_damage(weapon, occupant))
+	end_turn()
 
-func calculate_damage(target, skill): #Pendiente escribir funcion
-	var damage = 5
+func get_weapon_damage(weapon, target):
+	var damage
+	damage = weapon.dam_heal_value - target.info.defense
 	return damage
 
-func get_skill_damage(skill):
-	pass
+func get_weapon_range(weapon):
+	for range in weapon.range:
+		range.x = range.x * 64 + transform.origin.x
+		range.y = range.y * 64 + transform.origin.y
+		var square = get_target_square(range)
+		if square != null:
+			square.attackable = true
 
-func get_skill_area(skill):
-	pass
+func get_weapon_aoe(weapon, target):
+	for aoe in weapon.area_of_effect:
+		aoe.x = aoe.x * 64 + target.transform.origin.x
+		aoe.y = aoe.y * 64 + target.transform.origin.y
+		var square = get_target_square(aoe)
+		if square != null:
+			square.affected = true
+			var occupant = square.get_occupant_unit()
+			if occupant != null && occupant.allegiance != allegiance:
+				occupant.peek_damage(get_weapon_damage(weapon, occupant))
 
 func take_damage(damage):
 	hitpoints -= damage
 	$Control/Label.show_damage(damage)
 	$Control/HPBar.value = hitpoints
+	if(hitpoints <= 0):
+		death()
+
+func peek_damage(damage):
+	$Control/HPBarPeek.displayed_value = damage
 
 func take_healing(healing):
 	hitpoints += healing
@@ -230,3 +254,8 @@ func take_healing(healing):
 
 func end_turn():
 	current_turn_status = turn_status.turn_ended
+
+func death():
+	current_turn_status = turn_status.dead
+	visible = false
+	transform.origin = Vector2(-1000,1000)

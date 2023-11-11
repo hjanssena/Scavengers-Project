@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://cexrhe04c2tjd"]
+[gd_scene load_steps=8 format=3 uid="uid://cexrhe04c2tjd"]
 
 [ext_resource type="Texture2D" uid="uid://kili2gy8uh6q" path="res://Sprites/Testing/buzz.jpg" id="1_r57y3"]
 [ext_resource type="Script" path="res://Scenes/Units/enemy_unit.gd" id="1_x0uen"]
 [ext_resource type="Script" path="res://Scenes/Units/dmg_label.gd" id="3_1ntq3"]
 [ext_resource type="Theme" uid="uid://vxihndn3jmsd" path="res://Sprites/UI/Themes/InGameUI/IndividualHealthBar.tres" id="4_yj71r"]
+[ext_resource type="Script" path="res://Scenes/Units/HP_Bar_Peek.gd" id="5_7t8ef"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_dke34"]
 animations = [{
@@ -57,6 +58,21 @@ offset_top = -63.0
 offset_right = 40.0
 offset_bottom = -40.0
 grow_vertical = 0
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("3_1ntq3")
+
+[node name="Label2" type="Label" parent="Control"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -63.0
+offset_right = 40.0
+offset_bottom = -40.0
+grow_vertical = 0
+horizontal_alignment = 1
+vertical_alignment = 1
 script = ExtResource("3_1ntq3")
 
 [node name="HPBar" type="ProgressBar" parent="Control"]
@@ -71,5 +87,29 @@ grow_horizontal = 2
 grow_vertical = 0
 scale = Vector2(1, 0.2)
 theme = ExtResource("4_yj71r")
-value = 50.0
+max_value = 10.0
+value = 10.0
 show_percentage = false
+
+[node name="HPBarPeek" type="ProgressBar" parent="Control"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 10.0
+offset_bottom = 37.0001
+grow_horizontal = 2
+grow_vertical = 0
+scale = Vector2(1, 0.2)
+theme = ExtResource("4_yj71r")
+max_value = 10.0
+step = 1.0
+value = 10.0
+show_percentage = false
+script = ExtResource("5_7t8ef")
+
+[node name="Timer" type="Timer" parent="Control/HPBarPeek"]
+wait_time = 0.5
+
+[connection signal="timeout" from="Control/HPBarPeek/Timer" to="Control/HPBarPeek" method="_on_timer_timeout"]

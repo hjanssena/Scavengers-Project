@@ -33,3 +33,9 @@ text = "Weapon4"
 [node name="Weapon5" type="Button" parent="MainVBox"]
 layout_mode = 2
 text = "Weapon5"
+
+[connection signal="pressed" from="MainVBox/Weapon1" to="." method="_on_weapon_1_pressed"]
+[connection signal="pressed" from="MainVBox/Weapon2" to="." method="_on_weapon_2_pressed"]
+[connection signal="pressed" from="MainVBox/Weapon3" to="." method="_on_weapon_3_pressed"]
+[connection signal="pressed" from="MainVBox/Weapon4" to="." method="_on_weapon_4_pressed"]
+[connection signal="pressed" from="MainVBox/Weapon5" to="." method="_on_weapon_5_pressed"]
