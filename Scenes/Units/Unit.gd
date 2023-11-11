@@ -203,7 +203,7 @@ func get_available_adyacent_squares(unit, area):
 		iterations += 1
 	return adyacent_squares
 
-func attack(target, weapon):
+func attack_cursor(target, weapon):
 	for aoe in weapon.area_of_effect:
 		aoe.x = aoe.x * 64 + target.transform.origin.x
 		aoe.y = aoe.y * 64 + target.transform.origin.y
@@ -212,7 +212,16 @@ func attack(target, weapon):
 			var occupant = square.get_occupant_unit()
 			if occupant != null && occupant.allegiance != allegiance:
 				occupant.take_damage(get_weapon_damage(weapon, occupant))
-	end_turn()
+
+func attack_ai(target, weapon):
+	for aoe in weapon.area_of_effect:
+		aoe.x = aoe.x * 64 + target.transform.origin.x + 32
+		aoe.y = aoe.y * 64 + target.transform.origin.y + 32
+		var square = get_target_square(aoe)
+		if square != null:
+			var occupant = square.get_occupant_unit()
+			if occupant != null && occupant.allegiance != allegiance:
+				occupant.take_damage(get_weapon_damage(weapon, occupant))
 
 func get_weapon_damage(weapon, target):
 	var damage
@@ -221,8 +230,8 @@ func get_weapon_damage(weapon, target):
 
 func get_weapon_range(weapon):
 	for range in weapon.range:
-		range.x = range.x * 64 + transform.origin.x
-		range.y = range.y * 64 + transform.origin.y
+		range.x = range.x * 64 + transform.origin.x + 32
+		range.y = range.y * 64 + transform.origin.y + 32
 		var square = get_target_square(range)
 		if square != null:
 			square.attackable = true

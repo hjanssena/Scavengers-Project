@@ -34,6 +34,7 @@ func _process(_delta):
 		ally_turn()
 	
 	if current_unit != null && current_unit.current_turn_status == Unit.turn_status.not_selected:
+		current_unit.current_turn_status = Unit.turn_status.deciding_move
 		current_unit.start_turn(player_units, enemy_units, ally_units)
 
 func player_turn():
@@ -86,6 +87,7 @@ func end_turn(units_array, next_turn):
 func set_next_unit(unit_array: Array):
 	if unit_turn < unit_array.size() && unit_array.size() > 0:
 		current_unit = unit_array[unit_turn]
+		set_camera_target(current_unit)
 		unit_turn = unit_turn + 1
 	else:
 		unit_turn = 0

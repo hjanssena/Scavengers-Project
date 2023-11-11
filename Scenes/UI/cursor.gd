@@ -53,7 +53,8 @@ func _process(_delta):
 						emit_signal("show_attack_menu",self)
 					if Input.is_action_just_pressed("action_button"):
 						selected_unit.current_turn_status = Unit.turn_status.doing_action
-						selected_unit.attack(self, selected_weapon)
+						selected_unit.attack_cursor(self, selected_weapon)
+						selected_unit.end_turn()
 				Unit.turn_status.turn_ended:
 					selected_unit = null
 					enable_cursor()
