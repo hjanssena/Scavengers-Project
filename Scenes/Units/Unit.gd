@@ -30,7 +30,7 @@ var movement = 3 #movimiento en los tiles
 var build #Puede servir para las empujadas
 
 var hitpoints
-var attack_range = 3
+var attack_range = 0
 
 #Resources
 var skill_tree
@@ -230,8 +230,8 @@ func get_weapon_damage(weapon, target):
 
 func get_weapon_range(weapon):
 	for range in weapon.range:
-		range.x = range.x * 64 + transform.origin.x + 32
-		range.y = range.y * 64 + transform.origin.y + 32
+		range.x = range.x * 64 + transform.origin.x
+		range.y = range.y * 64 + transform.origin.y
 		var square = get_target_square(range)
 		if square != null:
 			square.attackable = true
