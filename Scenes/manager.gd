@@ -40,7 +40,7 @@ func _process(_delta):
 func player_turn():
 	var all_ended = true
 	for unit in player_units:
-		if unit.current_turn_status != Unit.turn_status.turn_ended: #cambiar a has ended cuando ya se pueda atacar, esto es para pruebas
+		if unit.current_turn_status != Unit.turn_status.turn_ended && unit.current_turn_status != Unit.turn_status.dead:
 			all_ended = false
 	if all_ended:
 		end_turn(player_units, turns.enemy)
@@ -87,7 +87,8 @@ func end_turn(units_array, next_turn):
 func set_next_unit(unit_array: Array):
 	if unit_turn < unit_array.size() && unit_array.size() > 0:
 		current_unit = unit_array[unit_turn]
-		set_camera_target(current_unit)
+		if current_unit.current_turn_status != Unit.turn_status.dead:
+			set_camera_target(current_unit)
 		unit_turn = unit_turn + 1
 	else:
 		unit_turn = 0
