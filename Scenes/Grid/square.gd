@@ -1,10 +1,9 @@
 extends Marker2D
-enum squareType {plain, mud, water, sand, mountain}
 
+@export_category("Traversal flags")
 #Movement variables
 @export var walkable: bool
 @export var wall: bool
-@export var flyable: bool
 
 #Breadth First Search
 var visited
@@ -23,18 +22,13 @@ var selectable #You can walk there
 var attackable #You can attack it
 var affected #Its affected by the aoe
 
-#For A*
-var f = 0
-var g = 0
-var h = 0
+var position_in_grid: Vector2
 
-@export var position_in_grid: Vector2
-
-#Penalties for standing on this square
-@export var type: squareType
-var movement_cost = 0
-var speed_penalty = 0
-var skill_penalty = 0
+@export_category("Square stat modifiers")
+@export var movement_cost: int
+@export var bonus_defense: int
+@export var bonus_resistance: int
+@export var bonus_speed: int
 
 var manager
 var cursor
@@ -90,10 +84,6 @@ func reset_values():
 	current_parent = null
 	
 	target_visited = false
-	
-	f = 0 
-	g = 0 
-	h = 0
 
 func find_neighbors (): #Uses check square function to check if adjacent squares have something in them
 	reset_values()

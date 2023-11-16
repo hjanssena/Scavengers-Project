@@ -6,7 +6,6 @@
 scale = Vector2(1.6, 1.6)
 script = ExtResource("1_ccv4y")
 walkable = true
-flyable = true
 metadata/_edit_group_ = true
 
 [node name="SquareColor" type="ColorRect" parent="."]

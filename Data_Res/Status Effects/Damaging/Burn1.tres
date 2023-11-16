@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Status_Effects" load_steps=2 format=3 uid="uid://c2c4wjaxqi77n"]
+
+[ext_resource type="Script" path="res://Data_Res/Status Effects/status_effects.gd" id="1_cyj61"]
+
+[resource]
+script = ExtResource("1_cyj61")
+name = "Burn I"
+description = "Deals a small amount of magical damage each turn"
+effect_type = 2
+damage_type = 1
+duration = 2
+stat_affected = 0
+value = 4

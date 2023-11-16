@@ -1,15 +1,18 @@
 extends Resource
 class_name Weapons
-enum weapon_type {heavy_melee, light_melee, heavy_gun, light_gun, shield, magic, hacking, healing}
+enum weapon_types {heavy_melee, light_melee, heavy_gun, light_gun, shield, magic, hacking, healing}
+enum damage_types {physical, magical}
 
 @export_category("Weapon stats & info")
 @export var name: String
-@export var type: weapon_type
+@export var weapon_type: weapon_types
+@export var damage_type: damage_types
 @export var description: String
 @export var dam_heal_value: int #Damage or healing value
 @export var weapon_level: int #Increases in damage when leveling skill
 @export var cooldown: int #Cooldown in turn numbers
-@export var weight: float #Affects the unit's skill, speed and movement value, higher value means the hit is larger
+@export var weight: int # Affects Speed and movement value, higher value means the hit is larger
+@export var complexity: int #Affects skill value, higher value means the hit is larger
 @export var status_effect: Status_Effects #Pending to add class
 @export var status_hit: float #From 0 to 1, percentage chance of applying the status effect
 @export var aoe_value_scaling: float #From 0 to 1, percentage for how much damage or healing changes in relation to the distance from the tile the skill was casted on

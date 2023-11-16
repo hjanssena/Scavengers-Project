@@ -22,6 +22,7 @@ enum Allignments{los_buenos}
 @export var resistance: int
 @export var skill: int
 @export var speed: int
+@export var movement: int
 @export var build: int
 
 @export_category("Stats_Growth_Rate")

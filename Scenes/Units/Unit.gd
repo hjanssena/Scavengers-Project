@@ -1,6 +1,7 @@
 extends Node2D
 
 class_name Unit
+var rng = RandomNumberGenerator.new()
 
 enum turn_status {not_selected, deciding_move, moving, deciding_action, deciding_target, doing_action, turn_ended, dead}
 enum allegiances {player, enemy, ally}
@@ -26,10 +27,12 @@ var skill #Afecta a la probabilidad de que no te esquiven y de criticos
 var speed #Esquivadas y probabilidad de pegar una vez extra tal vez?
 var defense #Defensa fisica
 var resistance #Resistencia magica
-var movement = 3 #movimiento en los tiles
+var movement #movimiento en los tiles
 var build #Puede servir para las empujadas
 
+var status_effects: Array
 var hitpoints
+@export var equiped_weapon: Weapons
 var attack_range = 0
 
 #Resources
@@ -40,6 +43,9 @@ var portrait
 @export var info: unit_info
 
 func _ready():
+	if(equiped_weapon == null):
+		equiped_weapon = info.inventory[0]
+	compute_stats()
 	get_square_array()
 	$Control/HPBar.max_value = info.hit_points
 	hitpoints = info.hit_points
@@ -211,7 +217,15 @@ func attack_cursor(target, weapon):
 		if square != null:
 			var occupant = square.get_occupant_unit()
 			if occupant != null && occupant.allegiance != allegiance:
-				occupant.take_damage(get_weapon_damage(weapon, occupant))
+				var hit_probability = calculate_hit_probability(occupant, weapon)
+				if hit_probability > rng.randf_range(0,100):
+					occupant.take_damage(get_weapon_damage(weapon, occupant))
+					if weapon.status_effect != null:
+						var status_probability = calculate_status_effect_probability(occupant, weapon)
+						if status_probability > rng.randf_range(0,100):
+							occupant.apply_status_effect(weapon.status_effect)
+				else:
+					occupant.missed_attack()
 
 func attack_ai(target, weapon):
 	for aoe in weapon.area_of_effect:
@@ -221,11 +235,32 @@ func attack_ai(target, weapon):
 		if square != null:
 			var occupant = square.get_occupant_unit()
 			if occupant != null && occupant.allegiance != allegiance:
-				occupant.take_damage(get_weapon_damage(weapon, occupant))
+				var hit_probability = calculate_hit_probability(occupant, weapon)
+				if hit_probability > rng.randf_range(0,100):
+					occupant.take_damage(get_weapon_damage(weapon, occupant))
+				else:
+					occupant.missed_attack()
 
 func get_weapon_damage(weapon, target):
 	var damage
-	damage = weapon.dam_heal_value - target.info.defense
+	compute_stats()
+	target.compute_stats()
+	match weapon.damage_type:
+		0:#physical
+			damage = weapon.dam_heal_value + strength - target.info.defense
+		1:#magical
+			damage = weapon.dam_heal_value + magic - target.info.resistance
+	return damage
+
+func get_status_effect_damage(effect, target):
+	var damage
+	compute_stats()
+	target.compute_stats()
+	match effect.damage_type:
+		0:#physical
+			damage = effect.dam_heal_value - target.info.defense/2
+		1:#magical
+			damage = effect.dam_heal_value - target.info.resistance/2
 	return damage
 
 func get_weapon_range(weapon):
@@ -245,7 +280,17 @@ func get_weapon_aoe(weapon, target):
 			square.affected = true
 			var occupant = square.get_occupant_unit()
 			if occupant != null && occupant.allegiance != allegiance:
-				occupant.peek_damage(get_weapon_damage(weapon, occupant))
+				occupant.peek_damage(get_weapon_damage(weapon, occupant), calculate_hit_probability(occupant, weapon))
+
+func calculate_hit_probability(target, weapon):
+	compute_stats()
+	target.compute_stats()
+	return (75 + skill*10 + speed*7) - (target.skill*10 + target.speed*7)
+
+func calculate_status_effect_probability(target, weapon):
+	compute_stats()
+	target.compute_stats()
+	return (weapon.status_hit*100 + skill*10 + speed*7) - (target.skill*10 + target.speed*7)
 
 func take_damage(damage):
 	hitpoints -= damage
@@ -254,17 +299,60 @@ func take_damage(damage):
 	if(hitpoints <= 0):
 		death()
 
-func peek_damage(damage):
-	$Control/HPBarPeek.displayed_value = damage
-
 func take_healing(healing):
 	hitpoints += healing
-	$Label.show_healing(healing)
+	if hitpoints > info.hit_points:
+		hitpoints = info.hit_points
+	$Control/Label.show_damage(healing)
+	$Control/HPBar.value = hitpoints
+
+func missed_attack():
+	$Control/Label.show_miss()
+
+func apply_status_effect(status_effect):
+	status_effects.insert(status_effects.size(), status_effect)
+
+func peek_damage(damage, hit_percent):
+	$Control/HPBarPeek.displayed_value = damage
+	$Control/Label.show_hit_percent(hit_percent)
 
 func end_turn():
 	current_turn_status = turn_status.turn_ended
+
+func compute_stats(): ##Mas adelante considerar status effects aplicados
+	#Tomar stats base
+	strength = info.strength
+	magic = info.magic_stat
+	skill = info.skill
+	speed = info.speed
+	defense = info.defense
+	resistance = info.resistance
+	movement = info.movement
+	build = info.build
+	
+	#Aplicar el penalty de peso de arma si aplica
+	var skill_penalty = build - equiped_weapon.weight
+	var speed_penalty = (build - equiped_weapon.weight)/2
+	if skill_penalty > 0:
+		skill -= skill_penalty
+		speed -= speed_penalty
+		
+	#Aplicar status effects que afecten a los stats base
 
 func death():
 	current_turn_status = turn_status.dead
 	visible = false
 	transform.origin = Vector2(-1000,1000)
+
+func apply_turn_status_effects():
+	for effect in status_effects: #Applied status effects
+		match effect.type:
+			0:#turn_blocker
+				end_turn()
+			1:#damaging
+				take_damage(get_status_effect_damage(effect, self))
+			2:#healing
+				take_healing(effect.value)
+
+func check_for_square_status_effects():
+	pass

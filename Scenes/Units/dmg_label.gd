@@ -20,6 +20,18 @@ func show_damage(damage):
 	modulate = Color.RED
 	text = str(damage)
 
+func show_miss():
+	visible = true
+	position = original_position
+	modulate = Color.YELLOW
+	text = "miss"
+
+func show_hit_percent(hit_percent):
+	visible = true
+	position = original_position
+	modulate = Color.YELLOW
+	text = str(hit_percent) + "%"
+
 func show_healing(healing):
 	visible = true
 	position = original_position

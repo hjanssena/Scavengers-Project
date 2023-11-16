@@ -83,6 +83,19 @@ func end_turn(units_array, next_turn):
 	for unit in units_array:
 		if unit.current_turn_status != Unit.turn_status.dead:
 			unit.current_turn_status = Unit.turn_status.not_selected
+	start_turn()
+
+func start_turn():
+	match current_turn:
+		0:
+			for unit in player_units:
+				unit.apply_turn_status_effects
+		1:
+			for unit in enemy_units:
+				unit.apply_turn_status_effects
+		2:
+			for unit in ally_units:
+				unit.apply_turn_status_effects
 
 func set_next_unit(unit_array: Array):
 	if unit_turn < unit_array.size() && unit_array.size() > 0:

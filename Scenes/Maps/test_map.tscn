@@ -40,7 +40,6 @@ position = Vector2(64, 64)
 [node name="Square8" parent="Grid" instance=ExtResource("2_3l18j")]
 position = Vector2(128, 64)
 walkable = false
-flyable = false
 
 [node name="Square9" parent="Grid" instance=ExtResource("2_3l18j")]
 position = Vector2(192, 64)
