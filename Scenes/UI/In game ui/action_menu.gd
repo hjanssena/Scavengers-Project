@@ -8,7 +8,7 @@ var attack_menu
 
 func _ready():
 	visible = false
-	$VBoxContainer/AttackButton.release_focus()
+	$MarginContainer/VBoxContainer/AttackButton.release_focus()
 
 func _process(delta):
 	if visible:
@@ -20,7 +20,7 @@ func _process(delta):
 			visible = false
 
 func _on_attack_button_pressed():
-	$VBoxContainer/AttackButton.release_focus()
+	$MarginContainer/VBoxContainer/AttackButton.release_focus()
 	visible = false
 	emit_signal("show_attack_menu",cursor)
 
@@ -37,7 +37,7 @@ func _on_cursor_show_action_menu(map_cursor):
 		cursor = map_cursor
 		current_unit = cursor.selected_unit
 		visible = true
-		$VBoxContainer/AttackButton.grab_focus();
+		$MarginContainer/VBoxContainer/AttackButton.grab_focus();
 
 func _on_cursor_hide_action_menu():
 	visible = false
@@ -46,4 +46,4 @@ func _on_cursor_hide_action_menu():
 
 func _on_attack_menu_show_action_menu():
 	visible = true
-	$VBoxContainer/AttackButton.grab_focus();
+	$MarginContainer/VBoxContainer/AttackButton.grab_focus();

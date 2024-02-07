@@ -1,45 +1,45 @@
-[gd_scene load_steps=2 format=3 uid="uid://btuww4lyujy22"]
+[gd_scene load_steps=3 format=3 uid="uid://btuww4lyujy22"]
 
 [ext_resource type="Script" path="res://Scenes/UI/In game ui/action_menu.gd" id="1_6clrm"]
+[ext_resource type="Theme" uid="uid://b4s5t4nx4dp4m" path="res://Sprites/UI/Themes/InGameUI/In-game-UI.tres" id="1_g50m8"]
 
-[node name="ActionMenu" type="Control"]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="ActionMenu" type="PanelContainer"]
+offset_right = 58.0
+offset_bottom = 101.0
+theme = ExtResource("1_g50m8")
 script = ExtResource("1_6clrm")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
-layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_left = 80.0
-offset_top = -20.0
-offset_right = 120.0
-offset_bottom = 20.0
-grow_vertical = 2
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
 
-[node name="AttackButton" type="Button" parent="VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="AttackButton" type="Button" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 focus_neighbor_top = NodePath("../WaitButton")
 focus_neighbor_bottom = NodePath("../ThrowButton")
+theme_override_font_sizes/font_size = 40
 text = "Attack"
 
-[node name="ThrowButton" type="Button" parent="VBoxContainer"]
+[node name="ThrowButton" type="Button" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 focus_neighbor_top = NodePath("../AttackButton")
 focus_neighbor_bottom = NodePath("../WaitButton")
+theme_override_font_sizes/font_size = 40
 text = "Throw"
 
-[node name="WaitButton" type="Button" parent="VBoxContainer"]
+[node name="WaitButton" type="Button" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 focus_neighbor_top = NodePath("../ThrowButton")
 focus_neighbor_bottom = NodePath("../AttackButton")
+theme_override_font_sizes/font_size = 40
 text = "Wait"
 
-[connection signal="pressed" from="VBoxContainer/AttackButton" to="." method="_on_attack_button_pressed"]
-[connection signal="pressed" from="VBoxContainer/ThrowButton" to="." method="_on_skills_button_pressed"]
-[connection signal="pressed" from="VBoxContainer/WaitButton" to="." method="_on_wait_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/AttackButton" to="." method="_on_attack_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/ThrowButton" to="." method="_on_skills_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/WaitButton" to="." method="_on_wait_button_pressed"]

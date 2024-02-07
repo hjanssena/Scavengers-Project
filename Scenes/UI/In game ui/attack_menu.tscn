@@ -1,41 +1,51 @@
-[gd_scene load_steps=2 format=3 uid="uid://stnbcpgto1e5"]
+[gd_scene load_steps=3 format=3 uid="uid://stnbcpgto1e5"]
 
 [ext_resource type="Script" path="res://Scenes/UI/In game ui/attack_menu.gd" id="1_5tqe1"]
+[ext_resource type="Theme" uid="uid://b4s5t4nx4dp4m" path="res://Sprites/UI/Themes/InGameUI/In-game-UI.tres" id="1_rku8b"]
 
-[node name="AttackMenu" type="Control"]
-layout_mode = 3
-anchors_preset = 0
+[node name="AttackMenu" type="PanelContainer"]
 offset_right = 40.0
 offset_bottom = 40.0
+theme = ExtResource("1_rku8b")
 script = ExtResource("1_5tqe1")
 
-[node name="MainVBox" type="VBoxContainer" parent="."]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="Weapon1" type="Button" parent="MainVBox"]
+[node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="MainVBox" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="Weapon1" type="Button" parent="MarginContainer/MainVBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
 text = "Weapon1"
 
-[node name="Weapon2" type="Button" parent="MainVBox"]
+[node name="Weapon2" type="Button" parent="MarginContainer/MainVBox"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 40
 text = "Weapon2"
 
-[node name="Weapon3" type="Button" parent="MainVBox"]
+[node name="Weapon3" type="Button" parent="MarginContainer/MainVBox"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 40
 text = "Weapon3"
 
-[node name="Weapon4" type="Button" parent="MainVBox"]
+[node name="Weapon4" type="Button" parent="MarginContainer/MainVBox"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 40
 text = "Weapon4"
 
-[node name="Weapon5" type="Button" parent="MainVBox"]
+[node name="Weapon5" type="Button" parent="MarginContainer/MainVBox"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 40
 text = "Weapon5"
 
-[connection signal="pressed" from="MainVBox/Weapon1" to="." method="_on_weapon_1_pressed"]
-[connection signal="pressed" from="MainVBox/Weapon2" to="." method="_on_weapon_2_pressed"]
-[connection signal="pressed" from="MainVBox/Weapon3" to="." method="_on_weapon_3_pressed"]
-[connection signal="pressed" from="MainVBox/Weapon4" to="." method="_on_weapon_4_pressed"]
-[connection signal="pressed" from="MainVBox/Weapon5" to="." method="_on_weapon_5_pressed"]
+[connection signal="pressed" from="MarginContainer/MainVBox/Weapon1" to="." method="_on_weapon_1_pressed"]
+[connection signal="pressed" from="MarginContainer/MainVBox/Weapon2" to="." method="_on_weapon_2_pressed"]
+[connection signal="pressed" from="MarginContainer/MainVBox/Weapon3" to="." method="_on_weapon_3_pressed"]
+[connection signal="pressed" from="MarginContainer/MainVBox/Weapon4" to="." method="_on_weapon_4_pressed"]
+[connection signal="pressed" from="MarginContainer/MainVBox/Weapon5" to="." method="_on_weapon_5_pressed"]

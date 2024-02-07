@@ -319,7 +319,7 @@ func peek_damage(damage, hit_percent):
 func end_turn():
 	current_turn_status = turn_status.turn_ended
 
-func compute_stats(): ##Mas adelante considerar status effects aplicados
+func compute_stats(): #Aca se procesan todos los stats con los buffs y debuffs que se tengan
 	#Tomar stats base
 	strength = info.strength
 	magic = info.magic_stat
@@ -336,8 +336,31 @@ func compute_stats(): ##Mas adelante considerar status effects aplicados
 	if skill_penalty > 0:
 		skill -= skill_penalty
 		speed -= speed_penalty
-		
+	
+	#Aplicar stats del tile en que estan parados
+	set_current_square() #Refrescar tile actual
+	defense = defense + current_square.bonus_defense
+	skill = skill + current_square.bonus_skill
+	speed = speed + current_square.bonus_speed
+	
 	#Aplicar status effects que afecten a los stats base
+	for effect in status_effects:
+		if effect.effect_type == 0:#stat_modifier
+			match effect.stat_affected:
+				1: #strength
+					strength += effect.value
+				2: #magic
+					magic += effect.value
+				3: #defense
+					defense += effect.value
+				4: #resistance
+					resistance += effect.value
+				5: #skill
+					skill += effect.value
+				6: #speed
+					speed += effect.value
+				7: #build
+					build += effect.value
 
 func death():
 	current_turn_status = turn_status.dead
@@ -347,12 +370,11 @@ func death():
 func apply_turn_status_effects():
 	for effect in status_effects: #Applied status effects
 		match effect.type:
-			0:#turn_blocker
+			0:#stat_modifier:
+				pass
+			1:#turn_blocker
 				end_turn()
-			1:#damaging
+			2:#damaging
 				take_damage(get_status_effect_damage(effect, self))
-			2:#healing
+			3:#healing
 				take_healing(effect.value)
-
-func check_for_square_status_effects():
-	pass

@@ -2,6 +2,7 @@ extends Node2D
 signal show_action_menu (cursor)
 signal hide_action_menu
 signal show_attack_menu (cursor)
+signal cursor_move (current_square)
 
 enum CursorMode {normal, target_select}
 
@@ -51,7 +52,7 @@ func _process(_delta):
 						selected_unit.current_turn_status = Unit.turn_status.deciding_action
 						is_action_menu_open = true
 						emit_signal("show_attack_menu",self)
-					if Input.is_action_just_pressed("action_button"):
+					if Input.is_action_just_pressed("action_button") && get_current_square().attackable:
 						selected_unit.current_turn_status = Unit.turn_status.doing_action
 						selected_unit.attack_cursor(self, selected_weapon)
 						selected_unit.end_turn()
@@ -81,24 +82,28 @@ func tap_move():
 			cursor_moving = true
 			$cursor_timer.wait_time = .2
 			$cursor_timer.start()
+			emit_signal("cursor_move", get_current_square())
 	elif (Input.is_action_just_pressed("move_down")):
 		if(peek_next_square(Vector2(0,64))):
 			position.y += 64
 			cursor_moving = true
 			$cursor_timer.wait_time = .2
 			$cursor_timer.start()
+			emit_signal("cursor_move", get_current_square())
 	elif (Input.is_action_just_pressed("move_right")):
 		if(peek_next_square(Vector2(64,0))):
 			position.x += 64
 			cursor_moving = true
 			$cursor_timer.wait_time = .2
 			$cursor_timer.start()
+			emit_signal("cursor_move", get_current_square())
 	elif (Input.is_action_just_pressed("move_left")):
 		if(peek_next_square(Vector2(-64,0))):
 			position.x -= 64
 			cursor_moving = true
 			$cursor_timer.wait_time = .2
 			$cursor_timer.start()
+			emit_signal("cursor_move", get_current_square())
 
 func hold_move():
 	if(Input.is_action_pressed("move_up")):
@@ -106,21 +111,25 @@ func hold_move():
 			position.y -= 64
 			$cursor_timer.wait_time = .05
 			$cursor_timer.start()
+			emit_signal("cursor_move", get_current_square())
 	elif (Input.is_action_pressed("move_down")):
 		if(peek_next_square(Vector2(0,64))):
 			position.y += 64
 			$cursor_timer.wait_time = .05
 			$cursor_timer.start()
+			emit_signal("cursor_move", get_current_square())
 	elif (Input.is_action_pressed("move_right")):
 		if(peek_next_square(Vector2(64,0))):
 			position.x += 64
 			$cursor_timer.wait_time = .05
 			$cursor_timer.start()
+			emit_signal("cursor_move", get_current_square())
 	elif (Input.is_action_pressed("move_left")):
 		if(peek_next_square(Vector2(-64,0))):
 			position.x -= 64
 			$cursor_timer.wait_time = .05
 			$cursor_timer.start()
+			emit_signal("cursor_move", get_current_square())
 	else:
 		cursor_moving = false
 

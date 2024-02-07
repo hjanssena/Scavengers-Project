@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://be5jmr0cvhd8"]
+[gd_scene load_steps=13 format=3 uid="uid://be5jmr0cvhd8"]
 
 [ext_resource type="PackedScene" uid="uid://sp6t3qg5jph8" path="res://Scenes/Grid/grid.tscn" id="1_5strk"]
 [ext_resource type="PackedScene" uid="uid://knsxgxve7qiw" path="res://Scenes/manager.tscn" id="1_njh5f"]
@@ -10,6 +10,8 @@
 [ext_resource type="PackedScene" uid="uid://btuww4lyujy22" path="res://Scenes/UI/In game ui/action_menu.tscn" id="7_0doii"]
 [ext_resource type="PackedScene" uid="uid://stnbcpgto1e5" path="res://Scenes/UI/In game ui/attack_menu.tscn" id="8_16upe"]
 [ext_resource type="Script" path="res://Scenes/InGameElements/InGameCamera.gd" id="8_ljfla"]
+[ext_resource type="PackedScene" uid="uid://darw5ceaaenme" path="res://Scenes/UI/In game ui/tile_inspector.tscn" id="11_1ex6p"]
+[ext_resource type="PackedScene" uid="uid://bjutobqxcd8ce" path="res://Scenes/UI/In game ui/unit_inspector.tscn" id="12_waxia"]
 
 [node name="TestMap" type="Node2D"]
 
@@ -46,6 +48,9 @@ position = Vector2(192, 64)
 
 [node name="Square10" parent="Grid" instance=ExtResource("2_3l18j")]
 position = Vector2(64, 128)
+bonus_defense = 2
+bonus_skill = 2
+bonus_speed = 2
 
 [node name="Square11" parent="Grid" instance=ExtResource("2_3l18j")]
 position = Vector2(128, 128)
@@ -102,6 +107,7 @@ target_units = [NodePath("../PlayerUnit2")]
 info = ExtResource("6_0giqx")
 
 [node name="InGameCamera" type="Camera2D" parent="."]
+zoom = Vector2(1.5, 1.5)
 position_smoothing_enabled = true
 position_smoothing_speed = 3.0
 script = ExtResource("8_ljfla")
@@ -109,9 +115,36 @@ script = ExtResource("8_ljfla")
 [node name="InGameUI" type="CanvasLayer" parent="."]
 
 [node name="ActionMenu" parent="InGameUI" instance=ExtResource("7_0doii")]
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 189.0
+offset_top = -87.0
+offset_right = 307.0
+offset_bottom = 90.0
+grow_vertical = 2
 
 [node name="AttackMenu" parent="InGameUI" instance=ExtResource("8_16upe")]
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 160.0
+offset_top = -141.0
+offset_right = 323.0
+offset_bottom = 150.0
+grow_vertical = 2
 
+[node name="tile_inspector" parent="InGameUI" instance=ExtResource("11_1ex6p")]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -170.0
+offset_right = 0.0
+grow_horizontal = 0
+
+[node name="unit_inspector" parent="InGameUI" instance=ExtResource("12_waxia")]
+
+[connection signal="cursor_move" from="Cursor" to="InGameUI/tile_inspector" method="_on_cursor_cursor_move"]
 [connection signal="hide_action_menu" from="Cursor" to="InGameUI/ActionMenu" method="_on_cursor_hide_action_menu"]
 [connection signal="show_action_menu" from="Cursor" to="InGameUI/ActionMenu" method="_on_cursor_show_action_menu"]
 [connection signal="show_attack_menu" from="Cursor" to="InGameUI/AttackMenu" method="_on_cursor_show_attack_menu"]

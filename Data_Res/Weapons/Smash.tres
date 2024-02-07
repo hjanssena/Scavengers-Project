@@ -6,7 +6,8 @@
 [resource]
 script = ExtResource("1_gd6el")
 name = "Smash"
-type = 0
+weapon_type = 0
+damage_type = 0
 description = "Hit very hard"
 dam_heal_value = 5
 weapon_level = 0

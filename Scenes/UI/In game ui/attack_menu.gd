@@ -24,7 +24,7 @@ func _on_action_menu_show_attack_menu(ncursor):
 	selected_unit = cursor.selected_unit
 	populate_buttons()
 	visible = true
-	$MainVBox/Weapon1.grab_focus()
+	$MarginContainer/MainVBox/Weapon1.grab_focus()
 
 func _on_cursor_show_attack_menu(ncursor):
 	cursor = ncursor
@@ -32,32 +32,32 @@ func _on_cursor_show_attack_menu(ncursor):
 	populate_buttons()
 	visible = true
 	on_focus = false
-	$MainVBox/Weapon1.grab_focus()
+	$MarginContainer/MainVBox/Weapon1.grab_focus()
 
 func _on_action_menu_hide_attack_menu():
 	pass # Replace with function body.
 
 func populate_buttons():
 	if selected_unit.info.inventory[0] != null:
-		$MainVBox/Weapon1.text = selected_unit.info.inventory[0].name
+		$MarginContainer/MainVBox/Weapon1.text = selected_unit.info.inventory[0].name
 	else:
-		$MainVBox/Weapon1.text = "No available weapons"
+		$MarginContainer/MainVBox/Weapon1.text = "No available weapons"
 	if selected_unit.info.inventory[1] != null:
-		$MainVBox/Weapon2.text = selected_unit.info.inventory[1].name
+		$MarginContainer/MainVBox/Weapon2.text = selected_unit.info.inventory[1].name
 	else:
-		$MainVBox/Weapon2.visible = false
+		$MarginContainer/MainVBox/Weapon2.visible = false
 	if selected_unit.info.inventory[2] != null:
-		$MainVBox/Weapon3.text = selected_unit.info.inventory[2].name
+		$MarginContainer/MainVBox/Weapon3.text = selected_unit.info.inventory[2].name
 	else:
-		$MainVBox/Weapon3.visible = false
+		$MarginContainer/MainVBox/Weapon3.visible = false
 	if selected_unit.info.inventory[3] != null:
-		$MainVBox/Weapon4.text = selected_unit.info.inventory[3].name
+		$MarginContainer/MainVBox/Weapon4.text = selected_unit.info.inventory[3].name
 	else:
-		$MainVBox/Weapon4.visible = false
+		$MarginContainer/MainVBox/Weapon4.visible = false
 	if selected_unit.info.inventory[4] != null:
-		$MainVBox/Weapon5.text = selected_unit.info.inventory[4].name
+		$MarginContainer/MainVBox/Weapon5.text = selected_unit.info.inventory[4].name
 	else:
-		$MainVBox/Weapon5.visible = false
+		$MarginContainer/MainVBox/Weapon5.visible = false
 
 func select_weapon(weapon):
 	selected_unit.current_turn_status = Unit.turn_status.deciding_target

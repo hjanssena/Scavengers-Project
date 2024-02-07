@@ -1,0 +1,54 @@
+[gd_scene load_steps=2 format=3 uid="uid://darw5ceaaenme"]
+
+[ext_resource type="Script" path="res://Scenes/UI/In game ui/tile_inspector.gd" id="1_n005s"]
+
+[node name="TileInspector" type="PanelContainer"]
+offset_right = 170.0
+offset_bottom = 100.0
+script = ExtResource("1_n005s")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 5
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer"]
+layout_mode = 2
+columns = 3
+
+[node name="SpdLabel" type="Label" parent="MarginContainer/GridContainer"]
+layout_mode = 2
+text = "Spd"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SklLabel2" type="Label" parent="MarginContainer/GridContainer"]
+layout_mode = 2
+text = "Skl"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BuffLabel" type="Label" parent="MarginContainer/GridContainer"]
+layout_mode = 2
+text = "Def"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SpdEffect" type="Label" parent="MarginContainer/GridContainer"]
+layout_mode = 2
+text = "-"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SklEffect" type="Label" parent="MarginContainer/GridContainer"]
+layout_mode = 2
+text = "-"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BuffEffect" type="Label" parent="MarginContainer/GridContainer"]
+layout_mode = 2
+text = "-"
+horizontal_alignment = 1
+vertical_alignment = 1

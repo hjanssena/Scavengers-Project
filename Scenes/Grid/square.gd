@@ -27,7 +27,7 @@ var position_in_grid: Vector2
 @export_category("Square stat modifiers")
 @export var movement_cost: int
 @export var bonus_defense: int
-@export var bonus_resistance: int
+@export var bonus_skill: int
 @export var bonus_speed: int
 
 var manager
