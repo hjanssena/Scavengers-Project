@@ -1,11 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://bjutobqxcd8ce"]
+[gd_scene load_steps=4 format=3 uid="uid://bjutobqxcd8ce"]
 
 [ext_resource type="Texture2D" uid="uid://c5mbas3h6a8al" path="res://Sprites/Testing/test_portrait.png" id="1_eqdss"]
+[ext_resource type="Script" path="res://Scenes/UI/In game ui/unit_inspector.gd" id="1_fp2rx"]
 [ext_resource type="Theme" uid="uid://b4s5t4nx4dp4m" path="res://Sprites/UI/Themes/InGameUI/In-game-UI.tres" id="2_aaeym"]
 
 [node name="unit_inspector" type="PanelContainer"]
 offset_right = 646.0
 offset_bottom = 233.0
+script = ExtResource("1_fp2rx")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
@@ -50,12 +52,29 @@ layout_mode = 2
 
 [node name="HitpointsLbl" type="Label" parent="MarginContainer/VBoxContainer/MarginContainer/HBoxContainer2"]
 layout_mode = 2
-text = "50/50"
-
-[node name="HitpointsBar" type="ProgressBar" parent="MarginContainer/VBoxContainer/MarginContainer/HBoxContainer2"]
-layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
+size_flags_stretch_ratio = 0.25
+text = "50/50"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/MarginContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Fill" type="Control" parent="MarginContainer/VBoxContainer/MarginContainer/HBoxContainer2/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HitpointsBar" type="ProgressBar" parent="MarginContainer/VBoxContainer/MarginContainer/HBoxContainer2/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 theme = ExtResource("2_aaeym")
 value = 100.0
 show_percentage = false
+
+[node name="Fill2" type="Control" parent="MarginContainer/VBoxContainer/MarginContainer/HBoxContainer2/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3

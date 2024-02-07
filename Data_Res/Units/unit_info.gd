@@ -3,7 +3,7 @@ class_name unit_info
 enum Allignments{los_buenos}
 
 @export_category("Resources")
-@export var portrait: Sprite2D
+@export var portrait: Texture2D
 @export var map_sprite: AnimatedSprite2D
 @export var inventory: Array[Weapons]
 

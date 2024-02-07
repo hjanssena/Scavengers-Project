@@ -63,7 +63,8 @@ func get_current_square():
 
 func set_current_square():
 	current_square = get_target_square(transform.get_origin())
-	current_square.current = true
+	if(current_square != null):
+		current_square.current = true
 
 func get_target_square(square_position):
 	square_position.x -= 32
@@ -339,10 +340,10 @@ func compute_stats(): #Aca se procesan todos los stats con los buffs y debuffs q
 	
 	#Aplicar stats del tile en que estan parados
 	set_current_square() #Refrescar tile actual
-	defense = defense + current_square.bonus_defense
-	skill = skill + current_square.bonus_skill
-	speed = speed + current_square.bonus_speed
-	
+	if (current_square != null):
+		defense = defense + current_square.bonus_defense
+		skill = skill + current_square.bonus_skill
+		speed = speed + current_square.bonus_speed
 	#Aplicar status effects que afecten a los stats base
 	for effect in status_effects:
 		if effect.effect_type == 0:#stat_modifier

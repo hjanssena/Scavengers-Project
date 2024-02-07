@@ -138,13 +138,21 @@ grow_vertical = 2
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -170.0
-offset_right = 0.0
+offset_left = -233.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = 140.0
 grow_horizontal = 0
 
 [node name="unit_inspector" parent="InGameUI" instance=ExtResource("12_waxia")]
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 666.0
+offset_bottom = 253.0
+scale = Vector2(0.7, 0.7)
 
 [connection signal="cursor_move" from="Cursor" to="InGameUI/tile_inspector" method="_on_cursor_cursor_move"]
+[connection signal="cursor_move" from="Cursor" to="InGameUI/unit_inspector" method="_on_cursor_cursor_move"]
 [connection signal="hide_action_menu" from="Cursor" to="InGameUI/ActionMenu" method="_on_cursor_hide_action_menu"]
 [connection signal="show_action_menu" from="Cursor" to="InGameUI/ActionMenu" method="_on_cursor_show_action_menu"]
 [connection signal="show_attack_menu" from="Cursor" to="InGameUI/AttackMenu" method="_on_cursor_show_attack_menu"]
