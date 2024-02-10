@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://7ixav3obsyau"
-path="res://.godot/imported/WhatsApp Image 2023-11-04 at 3.26.35 PM(1).jpeg-2d119ddb56f0a523809d5e0cca0a7deb.ctex"
+uid="uid://djcnhs7bnjptc"
+path="res://.godot/imported/Basic_Panel.png-576ce683413de1b46ade2980c08bba19.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Scenes/UI/In game ui/WhatsApp Image 2023-11-04 at 3.26.35 PM(1).jpeg"
-dest_files=["res://.godot/imported/WhatsApp Image 2023-11-04 at 3.26.35 PM(1).jpeg-2d119ddb56f0a523809d5e0cca0a7deb.ctex"]
+source_file="res://Sprites/UI/Elements/Basic_Panel.png"
+dest_files=["res://.godot/imported/Basic_Panel.png-576ce683413de1b46ade2980c08bba19.ctex"]
 
 [params]
 

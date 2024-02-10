@@ -9,7 +9,7 @@ enum Allignments{los_buenos}
 
 @export_category("Info")
 @export var name: String
-@export var race: Races
+@export var race: String
 @export var description: String
 @export var allignment: Allignments
 
@@ -35,7 +35,7 @@ enum Allignments{los_buenos}
 @export var speed_growth: int
 @export var build_growth: int
 
-@export_category("Weapon Preferences") #These go from 1 to 5
+@export_category("Weapon Proficiency") #These go from 1 to 5.
 @export var heavy_melee: int
 @export var light_melee: int
 @export var heavy_gun: int
@@ -45,3 +45,12 @@ enum Allignments{los_buenos}
 @export var hacking: int
 @export var healing: int
 
+@export_category("Weapon Preferences") #These go from 0 to 1. This is the growth rate of weapon proficiency.
+@export var heavy_melee_growth: float
+@export var light_melee_growth: float
+@export var heavy_gun_growth: float
+@export var light_gun_growth: float
+@export var shield_growth: float
+@export var magic_weapon_growth: float
+@export var hacking_growth: float
+@export var healing_growth: float
